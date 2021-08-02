@@ -1,0 +1,35 @@
+
+.mat-option.input-search{
+    padding:0 !important;
+    margin:0 !important;
+}
+
+.input-search {
+    position: absolute !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 9999999;
+}
+
+::ng-deep .input-select-option.mat-option {
+    padding: 0 !important;
+}
+
+.input-search-form-field {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+::ng-deep .input-search-form-field .mat-form-field-infix {
+    padding-left: 1rem !important;
+}
+
+.select-placeholder-container {
+  display: flex;
+  align-items: center;
+}
+
+.select-placeholder-container > span {
+  flex: 1;
+}

@@ -1,0 +1,24 @@
+<!----------------------------------------------
+            SEARCH BAR
+------------------------------------------------>
+
+<mat-toolbar class="header-background">
+    <mat-nav-list class="list-horizontal"  *ngIf="!initialLoading">
+      <mat-list-item>
+        <app-search-input></app-search-input>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-stroked-button [disabled]="notifQty === 0" [matBadge]="notifQty" matBadgeColor="primary" class="align-middle nav-button float-right notif-button" [matMenuTriggerFor]="menu">
+            <!--mat-icon aria-hidden="false" svgIcon="notification"></mat-icon-->
+            <mat-icon aria-hidden="false">notifications</mat-icon>
+            </button> 
+            <mat-menu #menu="matMenu">
+            <button *ngFor="let not of notificaciones; let idn = index;" mat-menu-item (click)="openNotif(not)">{{ not['alerta'] }}</button>
+            </mat-menu>  
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-toolbar>
+
+
+    
+

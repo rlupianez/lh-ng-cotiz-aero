@@ -1,0 +1,76 @@
+<div class="container-fluid botonera cot-selector mt-4 card-1" [hidden]="loading" @fadeIn> 
+    <div class="col-12 row cot-selector-header">
+        <div class="col-1" align="end">
+            <button mat-mini-fab (click)="toggleSelector()" matTooltip="Volver">
+              <mat-icon class="align-start p-0" aria-hidden="false">arrow_back</mat-icon>
+            </button>
+        </div>
+        <h5 mat-header class="col-11">Cotizadores - Conocé nuestros productos</h5>
+    </div>
+    <div class="icons-bar m-auto pt-4 pb-4 col-12">
+        <!-- nav list -->
+        <ul class="nav justify-content-center">
+            <li [matMenuTriggerFor]="menu" class="nav-item" *ngFor="let item of list" (click)="itemClicked(item)">
+                <div class="detail-icon-tab flex-fill text-center ml-4 m-2" 
+                    [ngClass]="{ 'active': activeItem === item.o_menu, 'not-active': activeItem !== item.o_menu && activeItem }">
+                    <div class="detail-icon-content">
+                        <img [src]="item.url_imagen" class="img-fluid seccion-img" alt="Sección" @fadeIn>
+                        <h6 class="detail-icon-label pt-2">{{ item.etiqueta }}</h6>
+                    </div>
+                </div>           
+               
+            </li>
+            <mat-menu #menu="matMenu" class="ml-4" (closed)="menuClosed()">
+                <button mat-menu-item *ngFor="let item of activeProducts" (click)="open(item)">
+                    <img [src]="item.url_imagen" class="img-fluid h-100" alt="Sección" @fadeIn>
+                    <span>{{ item.etiqueta }}</span>
+                </button>
+            </mat-menu>
+          </ul>
+    </div>
+    <!--div class="product-list col-3" [@slideInOut]="productListState">
+        <mat-list>
+            <mat-list-item>
+              <mat-icon mat-list-icon>folder</mat-icon>
+              <div mat-line> Producto 1</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <mat-icon mat-list-icon>note</mat-icon>
+              <div mat-line>Producto 2</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <mat-icon mat-list-icon>note</mat-icon>
+                <div mat-line>Producto 3</div>
+            </mat-list-item>
+        </mat-list>
+    </div-->
+</div>
+<!----- Skeleton Loader ----->
+<div class="container-fluid botonera cot-selector p-4 mt-4 card-1" *ngIf="loading"> 
+    <div class="col-12 row cot-selector-header">
+        <div class="col-1" align="end">
+            <button mat-mini-fab (click)="toggleSelector()" matTooltip="Volver">
+              <mat-icon class="align-start p-0" aria-hidden="false">arrow_back</mat-icon>
+            </button>
+        </div>
+        <h5 mat-header class="col-11">Cotizadores - Conocé nuestros productos</h5>
+    </div>
+    <div class="icons-bar m-auto pt-4 pb-4 col-12">
+        <!-- nav list -->
+        <ul class="nav justify-content-center">
+            <li class="nav-item" *ngFor="let item of emptyList">
+                <div class="detail-icon-tab flex-fill text-center ml-4 m-2">
+                    <div class="detail-icon-content">
+                        <app-form-control-skeleton-loader>
+                            <div class="milista-item mb-2"></div>
+                            <h5 class="col-10 m-auto"></h5>
+                        </app-form-control-skeleton-loader>
+                    </div>
+                </div>           
+               
+            </li>
+          </ul>
+    </div>
+</div>

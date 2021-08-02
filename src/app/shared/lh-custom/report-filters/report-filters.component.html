@@ -1,0 +1,31 @@
+<mat-accordion [ngClass]="{ 'skeleton-loader': skeletonLoading }" class="filters-panel" >
+    <mat-expansion-panel  hideToggle [expanded]="expanded" class="mat-elevation-z0 border-gray">
+        <mat-expansion-panel-header (click)="panelExpanded = !panelExpanded">
+            <mat-panel-title class="pl-3" >
+                <ng-container *ngIf="!skeletonLoading">
+                    <!--mat-icon >filter_list</mat-icon-->
+                    <span><h4 class="text-title">{{ title }}</h4></span>
+                </ng-container>
+                <ng-container *ngIf="skeletonLoading">
+                    <app-form-control-skeleton-loader class="w-100">
+                        <h5></h5>
+                    </app-form-control-skeleton-loader>
+                </ng-container>
+                
+            </mat-panel-title>
+            <mat-panel-description>
+                
+            </mat-panel-description>
+        
+            <div *ngIf="!skeletonLoading">
+                <mat-icon *ngIf="panelExpanded">remove</mat-icon>
+                <mat-icon *ngIf="!panelExpanded">add</mat-icon>
+            </div>
+    
+        </mat-expansion-panel-header>
+        
+        <ng-content></ng-content>
+
+    </mat-expansion-panel>
+</mat-accordion>
+

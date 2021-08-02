@@ -1,0 +1,14 @@
+{
+    "p_list_tipos_doc": [
+      {
+        "cod_docum": 4,
+        "abrev": "DNI"
+      },
+      {
+        "cod_docum": 88,
+        "abrev": "CUIT"
+      }
+    ],
+    "p_x_error": null,
+    "p_error": null
+  }

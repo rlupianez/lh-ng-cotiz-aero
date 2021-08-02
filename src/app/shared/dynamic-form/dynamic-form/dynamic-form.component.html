@@ -1,0 +1,9 @@
+
+<div class="container cotizador-form">
+  <form
+      class="dynamic-form"
+      [formGroup]="formGroup"> 
+        <app-dynamic-container [formConfig]="formConfig" [formGroup]="formGroup" class="{{ formConfig['class'] }}">
+        </app-dynamic-container>
+  </form>
+</div>

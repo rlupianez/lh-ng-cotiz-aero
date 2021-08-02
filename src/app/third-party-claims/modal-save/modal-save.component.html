@@ -1,0 +1,24 @@
+
+<h2 mat-dialog-title></h2>
+<div mat-dialog-content class="h-75">
+  <div class="row">
+    <div class="col-8 my-auto">
+      <h1 class="success-title">Propuesta #{{ cotizacionNr }}</h1>
+      <h2 *ngIf="!polizaNr" class="success-subtitle">Guardada correctamente</h2>  
+      <h2 *ngIf="polizaNr" class="success-subtitle">Póliza #{{ polizaNr }}</h2>  
+    </div>
+    <div class="col-4 d-flex justify-content-center">
+      <div class="success-icon">
+        <div class="success-icon__tip"></div>
+        <div class="success-icon__long"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+
+  <button mat-button color="primary" (click)="print()">Imprimir Póliza</button>
+  <button mat-button color="primary" (click)="close()">Aceptar</button>
+  <button mat-button color="primary" (click)="emit()">Emitir</button>
+</div>

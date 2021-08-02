@@ -1,0 +1,19 @@
+
+<app-table 
+    class="c-coverage-life-form"
+    [loading]="isLoading" 
+    [iFormControl]="iFormControl" 
+    [controlOptions]="controlOptions" 
+    (addDialogEvent)="addDialogOpened()"
+    (arrayInputChange)="inputHasChange($event)"
+    (rowSelectionChange)="onRowSelected($event)"
+    [actionFormTitle]="addModalTitle">
+</app-table>
+
+<section>
+    <div class="container-button">
+      <button mat-flat-button *ngIf="showBtnSave" color="primary">Guardar</button>     
+      <button mat-flat-button *ngIf="showBtnEmit" color="primary">Emitir</button>     
+    </div>
+</section>
+

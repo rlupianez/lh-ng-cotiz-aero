@@ -1,0 +1,75 @@
+::-webkit-scrollbar {
+  width: 10px;
+ /* 1px wider than Lion. */
+ /* This is more usable for users trying to click it. */
+  background-color: rgba(0, 0, 0, 0);
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+}
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+ /* This is the EXACT color of Mac OS scrollbars. Yes, I pulled out digital color meter */
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  background-clip: padding-box;
+  border: 2px solid rgba(0, 0, 0, 0);
+  min-height: 10px;
+ /*Prevent it from getting too small */
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0, 0, 0, 0.61);
+ /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+}
+
+.on-scrollbar {
+  scrollbar-width: thin;
+ /* Firefox */
+  -ms-overflow-style: none;
+ /* IE 10+ */
+}
+.on-scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+.on-scrollbar::-webkit-scrollbar {
+  width: 6px !important;
+  /* background-color: transparent; */
+}
+.on-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #efefef;
+}
+
+div * {
+  scrollbar-width: none;
+ /* Firefox */
+  -ms-overflow-style: none;
+ /* IE 10+ */
+}
+
+div * ::-webkit-scrollbar-track {
+  -webkit-box-shadow: none !important;
+  box-shadow: none;
+  background-color: #efefef; 
+}
+div * ::-webkit-scrollbar {
+  width: 8px !important;
+  /* background-color: transparent; */
+  background-color: #efefef;
+}
+div * ::-webkit-scrollbar-thumb {
+  /* background-color: transparent; */
+  background-color: gray;
+}
+
+div * ::-webkit-scrollbar-thumb:hover {
+  background-color: gray;
+  border-radius: 4px;
+}

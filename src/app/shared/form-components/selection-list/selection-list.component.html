@@ -1,0 +1,20 @@
+<div class="row">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <section *ngIf="!isEmpty" class="c-selection-list-section w-100">
+        <mat-selection-list #list [multiple]="multiple" class="p-0 m-0" >
+            <mat-list-option *ngFor="let option of optionList; let i = index" [value]="option" [selected]="selectedOptions.indexOf(i) !== -1" (click)="onSelected(list, i)">
+                <div>
+                    <mat-icon matSuffix>{{ defaultIcon }}</mat-icon>
+                    <span class="pl-2">{{ option[controlSpecs['options']['value']] || option['value'] }}</span>
+                </div>
+            </mat-list-option>
+          </mat-selection-list>
+    </section>
+    <div *ngIf="isEmpty && !loading" class="col-12">
+        <p class="m-auto text-center">
+            No se encontraron datos para mostrar
+        </p>  
+    </div>
+
+</div>
+

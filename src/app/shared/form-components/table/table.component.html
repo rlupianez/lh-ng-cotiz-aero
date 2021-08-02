@@ -1,0 +1,177 @@
+
+    <div class="row" [hidden]="isHidden" @fadeIn>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 pb-2" *ngIf="actions?.addDialog">
+            <button type="button" class="float-right" mat-stroked-button matTooltip="Agregar item" (click)="addRow()">
+                Agregar <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <mat-progress-bar *ngIf="loading" class="col-12 col-sm-12 col-md-12 col-lg-12" mode="indeterminate"></mat-progress-bar>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 list-table table-content">
+                <div *ngIf="loading" class="blur-table-overlay"></div>
+                <table mat-table [dataSource]="dataSource" class="w-100 bg-transparent table-hover">
+                    <ng-container *ngFor="let name of displayedColumns">
+                        <ng-container *ngIf="name === 'select'" matColumnDef="select" sticky>
+                            <th mat-header-cell *matHeaderCellDef>
+
+                                <mat-checkbox 
+                                    (change)="allRowChecked($event)" 
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()" 
+                                    [aria-label]="checkboxLabel()"
+                                    [disabled]="tableIsEmpty || !editable" 
+                                    matTooltip="Seleccionar/Deseleccionar todas" *ngshow="false">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell class="cuerpo-listado" *matCellDef="let row;let ridx = index">
+                                <mat-checkbox 
+                                    class="ml-3"
+                                    (click)="$event.stopPropagation()" 
+                                    (change)="rowChecked($event,row)"
+                                    [disabled]="row['required'] || !editable" 
+                                    [checked]="selection.isSelected(row)" 
+                                    [aria-label]="checkboxLabel(row)"
+                                    [(ngModel)]="formValue[ridx].selected">
+                                </mat-checkbox>
+                            </td>
+                            <!--td mat-footer-cell *matFooterCellDef> </td-->
+
+                        </ng-container>
+                        
+                        
+                        <!--- Columna de acciones -->
+                        <ng-container [matColumnDef]="name" *ngIf="name !== 'acciones' && name !== 'select'">
+                            
+                            <th mat-header-cell *matHeaderCellDef class="pl-2 text-center" [hidden]="items[name]?.hidden">
+                                <h5 class="table-header-title">{{ items[name]?.label || name | uppercase }}</h5>
+                            </th>
+                            <td mat-cell 
+                                *matCellDef="let element; let idx = index" 
+                                [hidden]="items[name].hidden" 
+                                class="{{ items[name].cellStyle || 'text-center' }} cuerpo-listado pl-3 pr-1"> 
+
+                                <ng-container *ngIf="items[name].editable === true && editable; then input; else value">
+                                </ng-container>
+                                
+                                <ng-template #input>
+                                    <div [hidden]="controlOptions['control'].items[name].hidden || (controlOptions['control'].items[name].hideOnDisabled && iFormControl.controls[idx].get(name).disabled)">
+                                    <ng-container
+                                        ngDefaultControl
+                                        appDynamicField
+                                        appDynamicFieldError
+                                        (focusout)="focusOut($event, name, idx)"
+                                        [controlOptions]="controlOptions['control'].items[name]"
+                                        [iFormControl]="iFormControl.controls[idx].get(name)"></ng-container>
+                                    </div>
+                                </ng-template>
+                                
+                                <ng-template #value>
+                                    <span *ngIf="controlOptions['control'].items[name]['control'].currency" class="row-text" [hidden]="items[name].hidden">
+                                        {{ element[name] | currency:controlOptions['control'].items[name]['control'].moneda }}
+                                        
+                                    </span>
+                                    <span *ngIf="!controlOptions['control'].items[name]['control'].currency" class="row-text" [hidden]="items[name].hidden">
+                                        {{ element[name] }}
+                                    </span>
+                                </ng-template>
+
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container *ngIf="name === 'acciones'" [matColumnDef]="name">
+                            <ng-container *ngIf="items[name]">
+                                <th mat-header-cell *matHeaderCellDef class="pl-2 text-center " [hidden]="items[name].hidden">
+                                    <h5 class="table-header-title">{{ items[name].label | uppercase }}</h5>
+                                </th>
+                                <td mat-cell class="{{ items[name].cellStyle || 'text-center' }} border-0" *matCellDef="let element; let idx = index" [hidden]="items[name].hidden"> 
+                                    <button class="align-middle" mat-icon-button matTooltip="{{items[name].label}}" (click)="$event.stopPropagation();customAction(element, name,idx)">
+                                        <mat-icon class="mb-2" aria-hidden="false" [svgIcon]="items[name].control.icon"></mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            
+
+                            <ng-container *ngIf="!items[name]">
+                                <th mat-header-cell *matHeaderCellDef class="text-center">
+                                    <h5 class="table-header-title">ACCIONES</h5>
+                                </th>
+                                <td mat-cell class="text-center" *matCellDef="let element; let idx = index"> 
+                                    
+                                    <button class="align-middle" mat-icon-button matTooltip="Editar">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button class="align-middle" mat-icon-button matTooltip="Eliminar" (click)="deleteRow(element,idx)">                            
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                    
+                                </td>
+                            </ng-container>
+                            
+
+                            
+                        </ng-container>
+
+                    </ng-container>
+
+                    <tr mat-header-row class="cabecera-listado" *matHeaderRowDef="displayedColumns"></tr>
+                    <tr 
+                        mat-row 
+                        [ngClass]="{ 'active-row': activeRowIndex === rindex }"
+                        *matRowDef="let row; columns: displayedColumns; let rindex = index" 
+                        (dblclick)="$event.stopPropagation();doubleClickedRow($event,rindex)"
+                        (click)="$event.stopPropagation();clickedRow($event,rindex)"></tr>
+                    <!--tr mat-footer-row *matFooterRowDef="displayedColumns"></tr-->
+                </table>
+ 
+            <div mat-paginator *ngIf="!loading && this.dataSource.data.length === 0" class="load-more-btn row p-5 ml-1 mr-1 border-bottom text-center">
+                
+                <p class="m-auto text-center" (click)="addRow()">
+                        <!--button-- mat-flat-button class="">
+                                <mat-icon aria-hidden="false">add</mat-icon>
+                        <button-->
+                        Esta tabla se encuentra vacía
+                </p>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!------ Skeleton table -------->
+    <!--div class="row" *ngIf="loading">
+        <div class="list-table fondo-listado pb-4 skeleton-loader col-12 border-top-none">
+            
+            <div class="row col-lg-12 m-0 p-0 justify-content-end">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 table-content pb-2 ml-3 mr-3">
+                   
+                    <app-form-control-skeleton-loader class="w-100 table">
+                        <table class="w-100">
+                            <thead>
+                                <tr>
+                                    <td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </app-form-control-skeleton-loader>
+                    
+                </div>
+            </div>
+        </div>
+    </div-->

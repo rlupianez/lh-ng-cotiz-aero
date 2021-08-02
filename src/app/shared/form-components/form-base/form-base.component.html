@@ -1,0 +1,10 @@
+   <!--- BODY DE_ PANEL ---->
+   <form 
+        class="dynamic-form" 
+        [formGroup]="service.formGroup"> 
+        <app-dynamic-form-content 
+            class="row"
+            [formConfig]="service.formGroupConfig" 
+            [formGroup]="service.formGroup">
+        </app-dynamic-form-content>
+</form>

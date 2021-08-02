@@ -1,0 +1,29 @@
+<mat-form-field class="w-100" [appearance]="controlAppearance">
+    <mat-label *ngIf="!labelHidden">{{ controlOptions.label.text || controlOptions.label }}</mat-label>    
+    <textarea matInput 
+        [placeholder]="placeholder"
+        [cols]="cols"
+        [rows]="rows"
+        [formControl]="iFormControl"
+        [required]="isRequired"
+        [attr.maxlength]="inputConfig.maxlength"
+        [attr.min]="min"
+        [attr.max]="max"
+        (input)="inputChange($event.target.value)"
+        (blur)="blurEvent($event)"
+        (keyup.enter)="blurEvent($event)"
+        autocomplete="off"></textarea>
+    <mat-error *ngIf="iFormControl.errors?.required">Por favor complete este campo</mat-error>
+    <mat-error *ngIf="iFormControl.errors?.minlength">
+        La longitud minima es de {{ iFormControl.errors?.minlength?.requiredLength }} carácteres
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.maxlength">
+        La longitud máxima es de {{ iFormControl.errors?.maxlength?.requiredLength }} carácteres
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.max">
+        El valor ingresado no debe ser superior a {{ iFormControl.errors?.max?.max }}
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.min">
+        El valor ingresado debe ser menor a {{ iFormControl.errors?.min?.min }}
+    </mat-error>
+</mat-form-field>

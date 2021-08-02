@@ -1,0 +1,28 @@
+<mat-form-field class="w-100 date-picker" [appearance]="controlAppearance">
+    <mat-label>{{ controlOptions['label'] || controlOptions['label']['text'] }}</mat-label>
+    <input matInput 
+        [matDatepicker]="dpfd" 
+        [formControl]="iFormControl"
+        [required]="controlOptions['required']"
+        placeholder="MM/YYYY"
+        [min]="controlOptions['control'].config.min"
+        [max]="controlOptions['control'].config.max">
+    <mat-datepicker-toggle matSuffix [for]="dpfd"></mat-datepicker-toggle>
+    <mat-datepicker #dpfd
+                    touchUi
+                    startView="multi-year"
+                    [calendarHeaderComponent]="customHeader"
+                    (yearSelected)="chosenYearHandler($event)"
+                    (monthSelected)="chosenMonthHandler($event, dpfd)"
+                    panelClass="example-month-picker">
+    </mat-datepicker>
+    <mat-error  *ngIf="iFormControl.errors?.required">
+        Por favor complete este campo
+    </mat-error>
+    <mat-error  *ngIf="iFormControl.errors?.matDatepickerMin">
+        La fecha debe ser mayor o igual a {{ moment(iFormControl.errors?.matDatepickerMin.min).format('MM/YYYY') }}
+    </mat-error>
+    <mat-error  *ngIf="iFormControl.errors?.matDatepickerParse">
+        Formato de fecha inválido
+    </mat-error>
+</mat-form-field>

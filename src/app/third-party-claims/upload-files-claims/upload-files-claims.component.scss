@@ -1,0 +1,20 @@
+.file-item .mat-list-item, .mat-list-base .mat-list-option{
+    height: auto;
+}
+
+.file-item-row{
+    height: auto !important;
+}
+
+.file-button-size .mat-icon-button {
+    height: 15px !important;
+    line-height: 15px !important;
+}  
+
+.file-button-size .mat-icon-button i, .mat-icon-button .mat-icon{
+    line-height: 14px ;
+}
+
+.hidden-file{
+    display: none;
+}

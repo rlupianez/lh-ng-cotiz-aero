@@ -1,0 +1,32 @@
+<div id="siniestros-list-container" class="container-fluid mb-5">
+   
+    <div class="mt-1">
+        <app-report-filters [expanded]="panelExpanded" [title]="listTitle">
+            <app-filters-toolbar 
+                [autoApplyFilters]="false"
+                [formFilter]="filterFormGroup" 
+                [filters]="filtersFields" 
+                (sendFilters)="applyFilters($event)"></app-filters-toolbar>
+        </app-report-filters>
+    </div>
+    <div class="row">
+        <app-material-table 
+            class="col-sm-12 mt-3" 
+            [isLoading]="isLoadingResults" 
+            [dataSource]="listItems" 
+            [columns]="columns"
+            [itemsTotal]="resultLength"
+            [pageSize]="tablePageSize"
+            [title]="tableTitle" 
+            [filterAppliedSubject]="applyFilterInTable"
+            [filterHasChange]="filtersHasChange"
+            [hidePDFDownload]="true"
+            [hideExcelExport]="true"
+            (paginationChange)="pageChange($event)"
+            [loadMoreBtn]="loadMorePaginator"
+            (rowClicked)="onRowCliked($event)"
+            (downloadExcelEvent)="downloadExcel($event)"></app-material-table>
+    </div>
+   
+</div>
+

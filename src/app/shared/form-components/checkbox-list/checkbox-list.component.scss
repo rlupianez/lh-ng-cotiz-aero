@@ -1,0 +1,23 @@
+.checklist-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 20px;
+  padding-bottom: 50px !important;
+}
+
+
+.c-checklist-section__item {
+  height: 2.2rem;
+  border: 0px solid #e6e6e6;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding: 1rem;
+  flex:inherit;
+  width: 20rem;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+
+}
+
+.c-checklist-section-item__text {
+  font-size: 1rem !important;
+}

@@ -1,0 +1,14 @@
+<div class="rating-label button-toggle mat-form-field-wrapper">
+  <div class="row">
+    <div class="col-12 col-sm-12  col-md-6 col-lg-6"> <label>{{controlOptions.label}}</label></div>
+    <div class="col-12 col-sm-12  col-md-6 col-lg-6" text-align="right">
+      <button mat-icon-button [color]="color" (click)=onClick(i+1) *ngFor="let ratingId of ratingArr;index as i"
+        [id]="'star_'+i" [matTooltip]="showDescription(i+1)" matTooltipPosition="above">
+        <mat-icon>
+          {{showIcon(i)}}
+        </mat-icon>
+        <!-- <label>{{showDescription(i)}}</label> -->
+      </button>
+    </div>
+  </div>
+</div>

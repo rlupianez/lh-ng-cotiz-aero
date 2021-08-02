@@ -1,0 +1,24 @@
+
+<ul class="nav justify-content-end" *ngIf="!initialLoading" @fadeIn>
+    <li class="nav-item" *ngFor="let item of items | objectKeys"> 
+        <div 
+            class="detail-icon-tab flex-fill text-center ml-4 m-2 {{ items[item].class }}"
+            (click)="action(item,items[item])">
+            <div class="detail-icon-content">
+                <mat-icon class="detail-icon" aria-hidden="false" [svgIcon]="items[item].icon"></mat-icon>
+                <h6 class="detail-icon-title pt-2">{{ items[item].text }}</h6>
+            </div>
+        </div>           
+       
+    </li>
+</ul>
+<ul class="nav justify-content-end" *ngIf="initialLoading">
+    <li class="nav-item" *ngFor="let item of items | objectKeys"> 
+        <div class="detail-icon-tab flex-fill text-center ml-4 m-2 {{ items[item].class }}">       
+            <app-form-control-skeleton-loader [show]="true">
+                <div class="milista-item mb-2"></div>
+                <h5 class="col-10 m-auto"></h5>
+            </app-form-control-skeleton-loader>
+        </div>           
+    </li>
+</ul>

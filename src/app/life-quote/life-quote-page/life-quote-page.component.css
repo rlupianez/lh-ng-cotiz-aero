@@ -1,0 +1,40 @@
+.section-third-claims .mat-focus-indicator {
+    padding: 0 !important;
+}
+
+.example-container {
+  
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }
+
+  .container-button {
+    margin-top: 100px;
+  }
+
+  .panel-table .mat-card-actions, .mat-card-subtitle, .mat-card-content  {
+    display: initial !important;
+  }
+
+  .panel-table{
+    background: red;
+  }
+
+  .divide-panel mat-divider{
+    margin: 0px 15px 20px 15px
+  }
+
+  td.cdk-column-Asegurados {
+    max-width: 150px !important;
+  }
+

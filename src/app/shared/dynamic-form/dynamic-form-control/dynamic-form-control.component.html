@@ -1,0 +1,9 @@
+<div class="col-12" *ngIf="loaded">
+    {{ controlOptions | json }}
+    <ng-container
+        ngDefaultControl
+        appDynamicField
+        appDynamicFieldError
+        [controlOptions]="controlOptions"
+        [iFormControl]="iFormControl.get('control')"></ng-container>
+</div>

@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-6">
+        <mat-form-field class="w-100 date-picker range-monthyear-desde" appearance="outline">
+            <mat-label>{{ rangeDatesLabels.startDate }}</mat-label>
+            <input matInput 
+                [matDatepicker]="dpfd" 
+                [formControl]="rangeControls.desde"
+                [required]="startDateRequired"
+                placeholder="MM/YYYY"
+                [min]="controlOptions['control'].config.min"
+                [max]="controlOptions['control'].config.max">
+            <mat-datepicker-toggle matSuffix [for]="dpfd"></mat-datepicker-toggle>
+            <mat-datepicker #dpfd
+                            touchUi
+                            startView="multi-year"
+                            [calendarHeaderComponent]="customHeader"
+                            (yearSelected)="chosenYearHandler($event, 'desde')"
+                            (monthSelected)="chosenMonthHandler($event, dpfd, 'desde')"
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+            <mat-error  *ngIf="rangeControls.desde.errors?.required">
+                {{ rangeDatesErrorsMsg.required }}
+            </mat-error>
+            <mat-error  *ngIf="rangeControls.desde.errors?.bsDate?.invalid">
+                {{ rangeDatesErrorsMsg.invalid }}
+            </mat-error>
+            <mat-error *ngIf="rangeControls.desde.errors?.matDatepickerMin">
+                    La fecha debe ser superior a {{ controlOptions['control'].config.min.format('MM/YYYY') }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6">
+        <mat-form-field class="w-100 date-picker range-monthyear-hasta" appearance="outline">
+            <mat-label>{{ rangeDatesLabels.endDate }}</mat-label>
+            <input matInput 
+                [matDatepicker]="dpfh"
+                [formControl]="rangeControls.hasta"
+                [required]="endDateRequired"
+                placeholder="MM/YYYY"
+                [min]="rangeControls.desde.value || controlOptions['control'].config.min"
+                [max]="controlOptions['control'].config.max">
+            <mat-datepicker-toggle matSuffix [for]="dpfh"></mat-datepicker-toggle>
+            <mat-datepicker #dpfh
+                            touchUi
+                            startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event, 'hasta')"
+                            (monthSelected)="chosenMonthHandler($event, dpfh, 'hasta')"
+                            [calendarHeaderComponent]="customHeader"
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+            <mat-error  *ngIf="rangeControls.hasta.errors?.required">
+                {{ rangeDatesErrorsMsg.required }}
+            </mat-error>
+            <mat-error  *ngIf="rangeControls.hasta.errors?.bsDate?.invalid">
+                {{ rangeDatesErrorsMsg.invalid }}
+            </mat-error>
+            <mat-error *ngIf="rangeControls.hasta.errors?.matDatepickerMin">
+                {{ rangeDatesErrorsMsg.endDateMin }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<!--mat-progress-bar *ngIf="isLoading" [mode]="'indeterminate'"></mat-progress-bar-->
+<mat-form-field class="c-autocomplete w-100 filtro-autocomplete" [appearance]="controlAppearance">
+    <mat-label>{{ controlOptions.label.text || controlOptions.label }}</mat-label>
+    <input matInput 
+        #autocomplete
+        matInputAutofocus
+        [attr.name]="controlOptions.control.inputId"
+        [type]="controlOptions.control.controlType || 'text'" 
+        [formControl]="iFormControl"
+        [matAutocomplete]="auto"
+        [required]="isRequired"
+        (focus)="onFocus($event)"
+        (focusout)="onFocusOut($event)"
+        (input)="inputChange($event.target.value)">
+        
+        <button mat-button mat-icon-button *ngIf="!isLoading && controlOptions.control.suffixIcon" matSuffix (mousedown)="suffixClicked($event)" [matTooltip]="controlOptions.control.suffixTooltip">
+            <mat-icon >{{ controlOptions.control.suffixIcon }}</mat-icon>
+        </button>
+        <button mat-button *ngIf="!isEmpty && !isLoading && isFocused && !controlOptions.control.suffixIcon" matSuffix mat-icon-button aria-label="Clear" (mousedown)="clearValue()">
+            <mat-icon>close</mat-icon>
+        </button>
+    <mat-spinner *ngIf="isLoading" strokeWidth="3" [diameter]="23" matSuffix></mat-spinner>
+    <mat-autocomplete 
+        #selectAutocomplete="matAutocomplete"
+        #auto="matAutocomplete" 
+        autoActiveFirstOption
+        (optionSelected)="selectedItem($event)"
+        panelWidth="auto"
+        (opened)="autocompleteScroll()"
+        [displayWith]="displayItem">
+
+        <!---mat-option *ngFor="let option of dataOptions | async" [value]="option[controlOptions.control.pasteFieldOnSelect]"-->
+        <!--- OPCIONES DEL SELECT -->
+        <ng-container *ngIf="iFormControl.value && controlOptions.control.searchWithNoItemSelected && showStringSearch">
+            <!--mat-optgroup label="Póliza"-->
+                <mat-option class="">
+                    <span><mat-icon >{{ controlOptions.control.suffixIcon || 'search' }}</mat-icon> {{ inputValue }} </span>
+                </mat-option>
+            <!--/mat-optgroup-->
+        </ng-container>
+        <mat-option *ngFor="let option of items" [value]="option">
+            <!-- Option con id y descripcion -->
+            
+            <span *ngIf="option[controlOptions.control.options.description]" class="float-left">
+                <!-- En el caso que sea productor - se muestran iconos personalizados -->
+                <!-- optimizar - creando componente aparte o directiva -->
+                <span *ngIf="isProductor" class="option-icon">
+                    <mat-icon *ngIf="option['estitular'] === 'S'">people</mat-icon>
+                    <mat-icon *ngIf="option['estitular'] === 'N'">person</mat-icon>
+                </span>
+                <!-- Fin span con icon productor -->
+                {{ option[controlOptions.control.options.description] }}
+            </span>
+            <span class="description-opt float-left">
+                {{ option[controlOptions.control.options.value] }}
+            </span>
+            <!-- Option sin descripcion -->
+            <span *ngIf="!option[controlOptions.control.options.description]" class="float-left">{{ option[controlOptions.control.options.value] }}</span>
+        </mat-option>
+        <!---   FIN OPCIONES -->
+            <mat-option *ngIf="optionsNotFound && showStringSearch && !isLoading" disabled (click)="onEmptyOptions()"> 
+            <span>{{ emptyOptionsMessage }}</span>
+        </mat-option>
+
+    </mat-autocomplete>
+    <mat-error *ngIf="iFormControl.errors?.required">{{ errorMessages.required }}</mat-error>
+    <mat-error *ngIf="iFormControl.errors?.incorrect">{{ errorMessages.incorrect }}</mat-error>
+</mat-form-field>
+

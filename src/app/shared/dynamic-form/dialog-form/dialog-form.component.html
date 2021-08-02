@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content>
+    <app-dynamic-form [formConfig]="formConfig" [formGroup]="dialogForm" ></app-dynamic-form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button [disabled]="dialogForm.invalid" mat-button mat-flat-button color="primary" (click)="submitForm()">Agregar</button>
+    <!--button mat-button mat-dialog-close>Cancelar</button-->
+    <button mat-button [mat-dialog-close]="true">Cerrar</button>
+</mat-dialog-actions>

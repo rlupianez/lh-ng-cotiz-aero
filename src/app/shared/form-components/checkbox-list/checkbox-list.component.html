@@ -1,0 +1,24 @@
+<div class="row">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <section *ngIf="!isEmpty" class="c-checklist-section col-12 row" >
+        <div  class="c-checklist-section__item c-checklist-section-item"
+            [ngClass]="{ 'is-checked': value.indexOf(option[controlSpecs['pasteFieldOnSelect']]) !== -1}"
+            *ngFor="let option of optionList;let i = index">
+            <mat-checkbox (change)="onChange($event)"
+                [value]="option[controlSpecs['pasteFieldOnSelect']] || option.value"
+                class="c-checklist-section-item__checkbox" [disabled]="formOptions['disabled']"
+                [checked]="value.indexOf(option[controlSpecs['pasteFieldOnSelect']]) !== -1">
+                <span
+                    class="c-checklist-section-item__text">{{ option[controlSpecs['options']['value']] || option.value | titlecase }}</span>
+            </mat-checkbox>
+        </div>
+
+
+    </section>
+    <div *ngIf="isEmpty && !loading" class="col-12">
+        <p class="m-auto text-center">
+            No se encontraron datos para mostrar
+        </p>
+    </div>
+
+</div>

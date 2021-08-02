@@ -1,0 +1,192 @@
+<!------ PANEL DATOS DEL SINIESTROS ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.insured)" title="Reclamos del tercero" btnLabelPrimary="Siguiente"
+    *ngIf="panelFocus === WizardStepEnum.insured"
+    [disabledBtnPrimary]="!(thirdPartyClaimsService.sinisterService.valid && PanelStepAvailable)"
+    classPanel="col-md-8 offset-md-2" (eventActionPrimary)="goToNextClaims()">
+    <app-sub-panel-form title="Datos del Siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.sinisterService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos del Siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.damageService">
+        </app-form-base>
+    </app-sub-panel-form>
+</app-panel-form>
+
+
+<!------ Reclamos del tercero - Daños vehículos  ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.damageToVehicles)" title="Reclamos del tercero - Daños vehículos"
+    [btnLabelPrimary]="btnPrimeryLabel" classPanel="col-md-10 offset-md-1"
+    *ngIf="showPanel(WizardStepEnum.damageToVehicles)" [disabledBtnPrimary]="false" btnLabelSecondary="Atras"
+    (eventActionSecondary)="goToInsuredStep()" (eventActionPrimary)="goToNextClaims()">
+
+    <app-sub-panel-form title="Datos personales del reclamante">
+        <app-form-base 
+            [service]="thirdPartyClaimsService.injuredService">
+        </app-form-base>
+
+        <app-form-base [service]="thirdPartyClaimsService.personalClaimService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos Personales del Propietario Damnificado">
+
+        <app-form-base [service]="thirdPartyClaimsService.injuredLinkService">
+        </app-form-base>
+
+        <app-form-base [service]="thirdPartyClaimsService.personalInjuredVehicleService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Domicilio">
+        <app-form-base [service]="thirdPartyClaimsService.addressVehicleService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Detalle de los datos del vehículo reclamante">
+        <app-form-base [service]="thirdPartyClaimsService.vehicleClaimsService">
+        </app-form-base>
+
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos del siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.vehicleSinesterService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="">
+        <app-form-base [service]="thirdPartyClaimsService.vehicleInspectionService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+
+    <app-claims-upload-file [list]="filesVehicle" accept="jpg|jpeg|bmp|gif|png|doc|docx" size="10" count="5">
+    </app-claims-upload-file>
+
+</app-panel-form>
+
+
+<!------ Reclamos del tercero -  Lesiones a personas ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.lesionToPeople)"
+    title="Reclamos del tercero -  Lesiones a personas" btnLabelPrimary="Siguiente" [disabledBtnPrimary]="false"
+    btnLabelSecondary="Atras" classPanel="col-md-10 offset-md-1" *ngIf="showPanel(WizardStepEnum.lesionToPeople)"
+    (eventActionSecondary)="goToBeforeClaims()" (eventActionPrimary)="goToNextClaims()">
+   
+    <app-sub-panel-form title="Datos personales del reclamante">
+        <div>
+            <app-form-base 
+                [service]="thirdPartyClaimsService.injuredService">
+            </app-form-base>
+            <app-form-base
+                [service]="thirdPartyClaimsService.personalClaimService">
+            </app-form-base>
+        </div>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos Personales del Propietario Damnificado">
+        <app-form-base [service]="thirdPartyClaimsService.personalInjuredLesionToPeople">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Domicilio">
+        <app-form-base [service]="thirdPartyClaimsService.addressLesionToPeopleService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Tipo de Siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.lesionSinisterService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-claims-upload-file [list]="filesDamagePeogle" accept="jpg|jpeg|bmp|gif|png|doc|docx" size="10" count="5">
+    </app-claims-upload-file>
+</app-panel-form>
+
+
+<!------ Reclamos del tercero - Daños a una ubicaciòn ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.damageToLocation)"
+    title="Reclamos del tercero - Daños a una ubicaciòn" [btnLabelPrimary]="btnPrimeryLabel"
+    [disabledBtnPrimary]="false" btnLabelSecondary="Atras" classPanel="col-md-10 offset-md-1"
+    *ngIf="showPanel(WizardStepEnum.damageToLocation)" (eventActionSecondary)="goToBeforeClaims()"
+    (eventActionPrimary)="goToNextClaims()">
+
+    <app-sub-panel-form title="Datos personales del reclamante">
+        <app-form-base [service]="thirdPartyClaimsService.injuredService">
+        </app-form-base>
+
+        <app-form-base [service]="thirdPartyClaimsService.personalClaimService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos Personales del Propietario Damnificado">
+        <app-form-base [service]="thirdPartyClaimsService.personalInjuredDamageToLocation">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Domicilio">
+        <app-form-base [service]="thirdPartyClaimsService.addressDamageToLocationService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Tipo de Siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.sinisterDamageToLocationService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+
+    <app-claims-upload-file [list]="filesDamageToLocation" accept="jpg|jpeg|bmp|gif|png|doc|docx" size="10" count="5">
+    </app-claims-upload-file>
+
+</app-panel-form>
+
+
+<!------ Reclamos del tercero - Daños a otros Bienes ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.damageToOtherProperty)"
+    title="Reclamos del tercero - Daños a otros Bienes" [btnLabelPrimary]="btnPrimeryLabel" [disabledBtnPrimary]="false"
+    btnLabelSecondary="Atras" classPanel="col-md-10 offset-md-1" *ngIf="showPanel(WizardStepEnum.damageToOtherProperty)"
+    (eventActionSecondary)="goToBeforeClaims()" (eventActionPrimary)="goToNextClaims()">
+   
+    <app-sub-panel-form title="Datos personales del reclamante">
+        <app-form-base [service]="thirdPartyClaimsService.injuredService">
+        </app-form-base>
+
+        <app-form-base [service]="thirdPartyClaimsService.personalClaimService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Datos Personales del Propietario Damnificado">
+        <app-form-base [service]="thirdPartyClaimsService.personalInjuredDamageToOtherProperty">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-sub-panel-form title="Domicilio">
+        <app-form-base [service]="thirdPartyClaimsService.addressDamageToOtherProperty">
+        </app-form-base>
+    </app-sub-panel-form>
+
+
+    <app-sub-panel-form title="Tipo de Siniestro">
+        <app-form-base [service]="thirdPartyClaimsService.sinisterDamageToOtherPropertyService">
+        </app-form-base>
+    </app-sub-panel-form>
+
+    <app-claims-upload-file [list]="filesDamageToOtherBienes" accept="jpg|jpeg|bmp|gif|png|doc|docx" size="10"
+        count="5">
+    </app-claims-upload-file>
+
+</app-panel-form>
+
+
+<!------ PANEL DE ENCUESTA ------->
+<app-panel-form [isDisabled]="!IsPanel(WizardStepEnum.survey)" *ngIf="panelFocus === WizardStepEnum.survey"
+    classPanel="col-md-8 offset-md-2" title="Encuesta" btnLabelPrimary="Guardar" [showBtnPrimary]="true"
+    (eventActionPrimary)="saveSurvey()">
+
+    <app-sub-panel-form title="En una escala del 1 a 5 califique">
+        <question-data-form [name]="ComponentNameEnum.survey" (handleChange)="handleFormChange(($event))"
+            [model]="claims?.survey">
+        </question-data-form>
+    </app-sub-panel-form>
+
+</app-panel-form>

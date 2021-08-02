@@ -1,0 +1,46 @@
+<div class="row" >
+    <div class="{{classPanel}}">
+        <section class="c-form-panel">
+            <div class="c-form-panel-card w-100 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+               
+                <!--- CABECERA DE PANEL ---->
+                <mat-card-header class="c-form-panel-card__header" *ngIf="title">
+                    <mat-card-title class="c-form-panel-card__title">
+                        <h3>{{ title }}</h3>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <!--- BODY DE_ PANEL ---->
+                <mat-card-content class="container">
+                    <ng-content></ng-content>
+                </mat-card-content>
+
+
+                <!---- BOTONES DE ACCIONES DE PANEL ----->
+
+                <mat-card-actions class="container" align="end">
+
+                    <button 
+                        *ngIf="btnLabelSecondary" 
+                        (click)="actionSecondary(this)"
+                        class="c-form-panel-card__confirm-btn ml-2" 
+                        [disabled]="disabledBtnSecundary" 
+                        mat-flat-button>
+                        {{ btnLabelSecondary }}
+                    </button>
+                    <button 
+                        (click)="actionPrimary(this)" 
+                        *ngIf="btnLabelPrimary"
+                        color="primary" 
+                        class="c-form-panel-card__confirm-btn ml-2"
+                        [disabled]="disabledBtnPrimary" 
+                        mat-flat-button>
+                        {{ btnLabelPrimary }}
+                    </button>
+
+
+                </mat-card-actions>
+            </div>
+        </section>
+    </div>
+</div>

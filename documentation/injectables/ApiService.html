@@ -1,0 +1,621 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>extranet-laholando documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">extranet-laholando documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ApiService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/services/api.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#generateStringFilter">generateStringFilter</a>
+                            </li>
+                            <li>
+                                <a href="#get">get</a>
+                            </li>
+                            <li>
+                                <a href="#multiselectFilterNotEq">multiselectFilterNotEq</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, loaderService: <a href="../injectables/LoaderService.html">LoaderService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/core/services/api.service.ts:28</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loaderService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoaderService.html" target="_self" >LoaderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateStringFilter"></a>
+                    <span class="name">
+                        <b>
+                            generateStringFilter
+                        </b>
+                        <a href="#generateStringFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateStringFilter(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, filtersInfo: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/core/services/api.service.ts:36</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>filtersInfo</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <b>
+                            get
+                        </b>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>get(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query?: object | string)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/app/core/services/api.service.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>path</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                            <code>object | string</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;object&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="multiselectFilterNotEq"></a>
+                    <span class="name">
+                        <b>
+                            multiselectFilterNotEq
+                        </b>
+                        <a href="#multiselectFilterNotEq"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>multiselectFilterNotEq(data, control, fieldname)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">src/app/core/services/api.service.ts:124</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>control</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>fieldname</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Observable, of, throwError } from &#x27;rxjs&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+
+import { map } from &#x27;rxjs/operators&#x27;;
+import { catchError, finalize } from &#x27;rxjs/operators&#x27;;
+
+import { environment } from &#x27;../../../environments/environment&#x27;;
+
+import { LoaderService } from &#x27;src/app/core/loader/loader.service&#x27;;
+import { delay } from &#x27;q&#x27;;
+
+const API_URL &#x3D; environment.apiUrl;
+
+/*
+    delete (url, options): perform a DELETE request
+    get(url, options): perform a GET request
+    head(url, options): perform a HEAD request
+    options(url, options): perform an OPTIONS request
+    patch(url, body, options): perform a PATCH request
+    post(url, body, options): perform a POST request
+    put(url, body, options): perform a PUT request.
+*/
+
+@Injectable({
+    providedIn: &#x27;root&#x27;
+})
+export class ApiService {
+
+    constructor(private http: HttpClient, private loaderService: LoaderService) { }
+
+    
+    /*
+        Genera la url de la api en base a los datos y la especificacion de filtros 
+    */
+    generateStringFilter(data: object, filtersInfo: object){
+        const fields &#x3D; Object.keys(data);
+        let filterString &#x3D; &#x27;?&#x27;;
+
+        const filters &#x3D; filtersInfo;
+
+        for(let i &#x3D; 0; i &lt; fields.length; i ++){
+            let fieldname &#x3D; fields[i];
+            
+            if(data[fieldname] &#x3D;&#x3D;&#x3D; &#x27;&#x27;){
+                continue;
+            }
+
+            if(i !&#x3D; 0){
+                filterString &#x3D; filterString + &#x27;&amp;&#x27;;
+            }
+
+            switch(filters[fieldname].control.type){
+                case &#x27;date-range&#x27;:
+                case &#x27;monthyear-range&#x27;:
+                    var range &#x3D; Object.keys(data[fieldname]);
+                    var start &#x3D; range[0];
+                    var end &#x3D; range[1];
+                    filterString &#x3D; filterString + &#x60;${fieldname}_gte&#x3D;${data[fieldname][start].format(&#x27;01/MM/YYYY&#x27;)}&amp;${fieldname}_lte&#x3D;${data[fieldname][end].format(&#x27;01/MM/YYYY&#x27;)}&#x60;;
+                    break;
+                case &#x27;select&#x27;:
+                    if(filters[fieldname].control.multiselect){
+                        if(data[fieldname].length &gt; 1 ){
+                            filterString &#x3D; filterString + this.multiselectFilterNotEq(data[fieldname],filters[fieldname].control,fieldname);
+                            /*let allItems &#x3D; &#x27;&#x27;;
+                            for(const index in data[fieldname]){
+                                const item &#x3D; data[fieldname][index]
+                                allItems &#x3D; allItems + &#x60;${fieldname}&#x3D;${item}&#x60;;
+                                if(parseInt(index) &lt; data[fieldname].length - 1){
+                                    allItems &#x3D; allItems + &#x60;&amp;&#x60;;
+                                }
+                            }
+                            filterString &#x3D; filterString + allItems;*/
+                        }else if(data[fieldname].length &#x3D;&#x3D;&#x3D; 1){
+                            filterString &#x3D; filterString + &#x60;${fieldname}&#x3D;${data[fieldname]}&#x60;;        
+                        }
+                    }else{
+                        filterString &#x3D; filterString + &#x60;${fieldname}&#x3D;${data[fieldname]}&#x60;;
+                    }
+                    break;
+                case &#x27;datepicker&#x27;:
+                    filterString &#x3D; filterString + &#x60;${fieldname}&#x3D;${data[fieldname].format(&#x27;01/MM/YYYY&#x27;)}&#x60;;
+                    break;
+                case &#x27;typeahead&#x27;:
+                    filterString &#x3D; filterString + &#x60;${fieldname}&#x3D;${data[fieldname][filters[fieldname][&#x27;control&#x27;][&#x27;options&#x27;][&#x27;key&#x27;]]}&#x60;;
+                    break;
+                default:
+                    filterString &#x3D; filterString + &#x60;${fieldname}&#x3D;${data[fieldname]}&#x60;;
+            }
+
+        }
+
+        console.log(&#x27;filter string&#x27;, filterString);
+        return filterString;
+    }
+
+    get(path: string, query?: object | string): Observable&lt;object&gt; {
+
+        if(!path){
+            console.error(&#x27;Path debe ser definido&#x27;);
+            return;
+        }
+        
+        // this.loaderService.show();
+        return this.http.get(API_URL + path)
+            .pipe(
+                catchError( err &#x3D;&gt; {
+                    return throwError(err);
+                }),
+                finalize (
+                    () &#x3D;&gt; {
+                        // this.loaderService.hide();
+                        // this.hideLoader();
+                    }
+                ),
+                map(
+                    response &#x3D;&gt; {
+                        delay(100000);
+                        return response;
+                    }
+                ));
+    }
+
+    multiselectFilterNotEq(data, control, fieldname){
+        var string &#x3D; &#x27;&#x27;;
+        for(let i&#x3D;0; i &lt; control.options.length; i++){
+            const item &#x3D; control.options[i];
+            if(!data.includes(item.value)){
+                if(string !&#x3D;&#x3D; &#x27;&#x27;){
+                    string &#x3D; string + &#x27;&amp;&#x27;;
+                }
+                string &#x3D; string + &#x60;${fieldname}_ne&#x3D;${item.value}&#x60;;
+            }
+        }
+
+        return string;
+    }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ApiService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

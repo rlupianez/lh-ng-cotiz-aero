@@ -1,0 +1,127 @@
+<form #coberturaForm="ngForm" >
+  <div class="row" style="flex-wrap: nowrap !important" [hidden]="!cobertura">
+    <div class="col-sm-12 col-md-1">
+      <mat-checkbox 
+        [disabled]="cobertura.obligatorio"
+        name="selected" 
+        [(ngModel)]="cobertura.selected"
+        (change)="agregarCobertura(cobertura, $event)"
+        ></mat-checkbox>    
+    </div>   
+    <div *ngshow="false" class="col-sm-12 col-md-2">
+      <mat-form-field class="w-100" appearance="outline" >
+        <mat-label >Código</mat-label>    
+        <input 
+            disabled
+            name="codigo" 
+            #codigo="ngModel"         
+            matInput           
+            type="text"
+            [(ngModel)]="cobertura.codigo"  
+            required                                                                  
+            autocomplete="off"          
+            >
+        <mat-error *ngIf="codigo.touched && codigo.errors?.required" >Por favor complete este campo</mat-error>     
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <mat-form-field class="w-100" appearance="outline">         
+        <mat-label >Descripción</mat-label>    
+        <input
+            disabled 
+            name="descripcion" 
+            #descripcion="ngModel"                
+            matInput           
+            type="text"
+            [(ngModel)]="cobertura.descripcion"
+            required                                                                  
+            autocomplete="off"          
+            >  
+          
+        <mat-error *ngIf="descripcion.touched && descripcion.errors?.required" >Por favor complete este campo</mat-error>     
+      </mat-form-field>
+    </div>  
+    <div class="col-sm-12 col-md-2">
+      <mat-form-field class="w-100" appearance="outline" >
+        <mat-label >Argentinos Oro</mat-label>    
+        <input 
+        prefix=" "
+        mask="separator.2" 
+        thousandSeparator="." 
+        decimalMarker=","
+        disabled
+        name="argentinoOro" 
+        #argentinoOro="ngModel"         
+        matInput           
+        type="text"
+        [(ngModel)]="cobertura.argentino_oro"
+        required 
+        numberValidator="positive"       
+        >
+      </mat-form-field>
+    </div> 
+    <div class="col-sm-12 col-md-2">
+      <mat-form-field class="w-100" appearance="outline" >
+        <mat-label >Suma aseg. por asiento</mat-label>    
+        <input 
+        [prefix]="cobertura.esDolar? 'us$' : '$'"
+        mask="separator.2" 
+        thousandSeparator="." 
+        decimalMarker=","
+        disabled
+        name="sumaAseguradaPorAsiento" 
+        #sumaAseguradaPorAsiento="ngModel"         
+        matInput           
+        type="text"
+        [(ngModel)]="cobertura.sumaAseguradaPorAsiento"
+        required 
+        numberValidator="positive"       
+        >
+      </mat-form-field>
+    </div> 
+    <div class="col-sm-12 col-md-2">
+      <mat-form-field class="w-100" appearance="outline" >
+        <mat-label >Pasajeros/Tripulantes</mat-label>    
+        <input 
+            disabled
+            name="plazas" 
+            #plazas="ngModel"         
+            matInput           
+            type="text"
+            [(ngModel)]="cobertura.plazas"  
+            required                                                                  
+            autocomplete="off"
+            [plazaValidator] = "cobertura" 
+            (focusout) = "sumarPlazas(cobertura)"     
+            >
+        <mat-error *ngIf="plazas.touched && plazas == 0" >Por favor complete este campo</mat-error>    
+        <mat-error *ngIf="plazas.plazaValidator?.plazaValida" >El numero supera el maximo de plazas</mat-error>  
+      </mat-form-field>
+    </div>
+    <div class="col-sm-12 col-md-2">
+      <mat-form-field class="w-100" appearance="outline" >
+        <mat-label >Suma aseg. total</mat-label>    
+        <input 
+        [prefix]="cobertura.esDolar? 'us$' : '$'"
+        mask="separator.2" 
+        thousandSeparator="." 
+        decimalMarker=","
+        disabled
+        name="sumaAsegurada" 
+        #sumaAsegurada="ngModel"         
+        matInput           
+        type="text"
+        [(ngModel)]="cobertura.sumaAsegurada"
+        required 
+        numberValidator="positive"
+        autocomplete="off"
+        (focusout)="cambioSumaAsegurada(cobertura)"          
+        >
+        <mat-error *ngIf="sumaAsegurada.touched && sumaAsegurada.errors?.required" >Por favor complete este campo</mat-error>   
+        <mat-error *ngIf="sumaAsegurada.touched && sumaAsegurada.errors?.number" >El valor debe ser numérico</mat-error>
+        <mat-error *ngIf="sumaAsegurada.touched && sumaAsegurada.errors?.positive" >El valor debe ser mayor a cero</mat-error>
+      </mat-form-field>
+    </div>    
+  </div>
+</form>
+

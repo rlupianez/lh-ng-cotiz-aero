@@ -1,0 +1,50 @@
+{
+    "p_x_error": null,
+    "p_error": null,
+    "p_list_cond_iva": [
+      {
+        "cod_iva": "-",
+        "descri": "SIN IVA"
+      },
+      {
+        "cod_iva": "S",
+        "descri": "RESP.  INSCRIPTO"
+      },
+      {
+        "cod_iva": "G",
+        "descri": "RESP.INSC.(GRAN CON)"
+      },
+      {
+        "cod_iva": "N",
+        "descri": "RESP.NO INSCRIPTO"
+      },
+      {
+        "cod_iva": "E",
+        "descri": "EXENTO"
+      },
+      {
+        "cod_iva": "F",
+        "descri": "CONS. FINAL"
+      },
+      {
+        "cod_iva": "X",
+        "descri": "NO CATEGORIZADO"
+      },
+      {
+        "cod_iva": "Z",
+        "descri": "NO RESPONSABLE"
+      },
+      {
+        "cod_iva": "M",
+        "descri": "MONOTRIBUTISTA"
+      },
+      {
+        "cod_iva": "P",
+        "descri": "SERVICIOS PUBLICOS"
+      },
+      {
+        "cod_iva": "T",
+        "descri": "SERVICIOS EXTERIOR"
+      }
+    ]
+  }

@@ -1,0 +1,14 @@
+<div class="button-toggle mat-form-field-wrapper">
+  <mat-button-toggle-group 
+    #group="matButtonToggleGroup"
+    matInput
+    [formControl]="iFormControl">
+      <mat-button-toggle *ngFor="let option of options" [value]="option.value" #tooltip="matTooltip" matTooltip="{{option.tooltip}}">
+        <mat-icon *ngIf="option.iconSvg" svgIcon="{{ option.iconSvg }}" ></mat-icon>
+        <i *ngIf="option.icon" [class]="option.icon"></i>
+      </mat-button-toggle>
+  </mat-button-toggle-group>
+  <!--mat-error class="button-toggle-error" *ngIf="iFormControl.touched && iFormControl.errors?.required">Por favor complete este campo</mat-error-->
+</div>
+
+  

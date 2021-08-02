@@ -1,0 +1,211 @@
+<!------ PANEL DATOS DE PRODUCTOR ------->
+
+<section  #f1>
+    <app-panel-form 
+        title="Datos Productor"
+        btnLabelPrimary="Siguiente" 
+        [showBtnPrimary]="true" 
+        [disabledBtnPrimary]="lifeQuoteService.productorService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.productor)"
+        (eventActionPrimary)="goToTakerStep(f2)" 
+        classPanel="col-md-10 offset-md-1">
+        <app-sub-panel-form title="">
+            <app-form-base
+                [name]="ComponentNameEnum.productor" 
+                [service]="lifeQuoteService.productorService">
+            </app-form-base>
+       </app-sub-panel-form>
+
+    </app-panel-form>
+</section>
+
+<section  #f2>
+    <app-panel-form 
+        title="Datos Tomador"
+        btnLabelPrimary="Siguiente"
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true" 
+        [disabledBtnPrimary]="lifeQuoteService.takerService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.taker)"
+        (eventActionPrimary)="goToConditionsBenefitsCommercialStep(f3)"
+        (eventActionSecondary)="goToProductorStep(f1)" 
+        classPanel="col-md-10 offset-md-1">
+        <!------ PANEL DATOS DE TOMADOR ------->
+        <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.taker" 
+                    [service]="lifeQuoteService.takerService">
+                </app-form-base>
+        </app-sub-panel-form>
+    </app-panel-form>
+</section>
+
+<section  #f3>
+    <app-panel-form 
+        title="Condiciones y beneficios comerciales"
+        btnLabelPrimary="Siguiente" 
+        btnLabelSecondary="Atras" 
+        [isDisabled]="!IsPanel(WizardStepEnum.conditionsBenefitsCommercial)"
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true"
+        [disabledBtnPrimary]="lifeQuoteService.conditionsBenefitsCommercialService.formGroup.invalid"
+        (eventActionPrimary)="goToPlansStep(f4)"
+        (eventActionSecondary)="goToTakerStep(f2)" 
+        classPanel="col-md-10 offset-md-1">
+        <!------ PANEL CONDICIONES Y BENEFICIOS COMERCIALES ------->
+        <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.conditionsBenefitsCommercial" 
+                    [service]="lifeQuoteService.conditionsBenefitsCommercialService">
+                </app-form-base>
+        </app-sub-panel-form>
+    </app-panel-form>
+</section>
+
+<section  #f4>
+    <app-panel-form 
+        title="Planes" 
+        btnLabelPrimary="Siguiente"
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true" 
+        [disabledBtnPrimary]="lifeQuoteService.plansService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.plans)"
+        (eventActionPrimary)="goToAdjustmentStep(f5)"
+        (eventActionSecondary)="goToConditionsBenefitsCommercialStep(f3)" 
+        classPanel="col-md-10 offset-md-1">
+        <!------ PANEL PLANES ------->
+        
+        <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.plans" 
+                    [service]="lifeQuoteService.plansService">
+                </app-form-base>
+        </app-sub-panel-form>
+
+    </app-panel-form>
+</section>
+
+<section  #f5>
+    <app-panel-form 
+        title="Ajustes"
+        btnLabelPrimary="Siguiente"
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true"
+        [disabledBtnPrimary]="lifeQuoteService.adjustmentService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.adjustment)"
+        (eventActionPrimary)="goToInsuredStep(f6)"
+        (eventActionSecondary)="goToPlansStep(f4)" classPanel="col-md-10 offset-md-1">
+        <!------ PANEL AJUSTES ------->
+            <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.conditionsBenefitsCommercial" 
+                    [service]="lifeQuoteService.adjustmentService">
+                </app-form-base>
+            </app-sub-panel-form>
+    </app-panel-form>
+</section>
+
+
+<section  #f6>
+    <app-panel-form 
+    title="Asegurados"
+        [isDisabled]="!IsPanel(WizardStepEnum.insured)"
+        btnLabelPrimary="Siguiente"
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true" 
+        [disabledBtnPrimary]="false"
+        [isDisabled]="!IsPanel(WizardStepEnum.taker)"
+        (eventActionPrimary)="goToCoverageStep(f7)"
+        (eventActionSecondary)="goToAdjustmentStep(f5)" 
+        classPanel="col-md-10 offset-md-1 panel-table">
+        <form
+            class="dynamic-form"
+            [formGroup]="insuredService.formGroup"> 
+            <app-dynamic-form-content  class="row"
+                [formConfig]="insuredService.formGroupConfig" 
+                [formGroup]="insuredService.formGroup">
+            </app-dynamic-form-content>
+        </form>
+    
+    </app-panel-form>
+</section>
+
+
+<section  #f7>
+    <app-panel-form 
+        title="Coberturas"
+        [isDisabled]="!IsPanel(WizardStepEnum.coverage)"
+        btnLabelPrimary="Siguiente"
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true" 
+        [disabledBtnPrimary]="false"
+        [isDisabled]="!IsPanel(WizardStepEnum.taker)"
+        (eventActionPrimary)="goToUniformFixedCapitalStep(f8)"
+        (eventActionSecondary)="goToInsuredStep(f6)" 
+        classPanel="col-md-10 offset-md-1 panel-table">
+        <form
+            class="dynamic-form"
+            [formGroup]="insuredService.formGroup"> 
+            <app-dynamic-form-content  class="row"
+                [formConfig]="insuredService.formGroupConfig" 
+                [formGroup]="insuredService.formGroup">
+            </app-dynamic-form-content>
+        </form>
+    
+    </app-panel-form>
+</section>
+
+
+
+
+<section  #f8>
+    <app-panel-form 
+        title="Capital Fijo"
+        btnLabelPrimary="Siguiente" 
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true"
+        [disabledBtnPrimary]="lifeQuoteService.uniformCapitalFixedService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.uniformFixedCapital)"
+        (eventActionPrimary)="goToUniformVariableCapitalStep(f9)"
+        (eventActionSecondary)="goToCoverageStep(f7)" 
+        classPanel="col-md-10 offset-md-1">
+        <!------ PANEL AJUSTES ------->
+            <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.uniformFixedCapital" 
+                    [fields]="fixedCapital"
+                    [service]="lifeQuoteService.uniformCapitalFixedService">
+                </app-form-base>
+            </app-sub-panel-form>
+    </app-panel-form>
+</section>
+
+<section  #f9>
+    <app-panel-form 
+        title="Capital Variable"
+        btnLabelPrimary="Siguiente" 
+        btnLabelSecondary="Atras" 
+        [showBtnPrimary]="true" 
+        [showBtnSecondary]="true"
+        [disabledBtnPrimary]="lifeQuoteService.uniformCapitalVariableService.formGroup.invalid"
+        [isDisabled]="!IsPanel(WizardStepEnum.uniformVariableCapital)"
+        (eventActionPrimary)="goToProductorStep(f8)"
+        (eventActionSecondary)="goToUniformFixedCapitalStep(f8)" 
+        classPanel="col-md-10 offset-md-1">
+        <!------ PANEL AJUSTES ------->
+            <app-sub-panel-form title="">
+                <app-form-base
+                    [name]="ComponentNameEnum.uniformVariableCapital" 
+                    [fields]="variableCapital"
+                    [service]="lifeQuoteService.uniformCapitalVariableService">
+                </app-form-base>
+            </app-sub-panel-form>
+    </app-panel-form>
+</section>
+

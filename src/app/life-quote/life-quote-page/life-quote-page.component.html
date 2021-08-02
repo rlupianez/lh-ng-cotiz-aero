@@ -1,0 +1,102 @@
+    <!------ PANEL DATOS DE PRODUCTOR ------->
+    <app-panel-form 
+        title="Cotizador Vida Colectivo"
+        btnLabelPrimary="confirmar" 
+        btnLabelSecundary="Atras" 
+        [disabledBtnPrimary]="false"
+        [isDisabled]="true"
+        (eventActionPrimary)="confirmar()" 
+        classPanel="col-md-10 offset-md-1">
+        <section class="divide-panel">
+            
+            <app-sub-panel-form title="Datos Productor"  >
+                <app-form-base
+                    [service]="lifeQuoteService.productorService">
+                </app-form-base>
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Datos Tomador">
+                <app-form-base
+                    [service]="lifeQuoteService.takerService">
+                </app-form-base>
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Condiciones y beneficios comerciales">
+                    <app-form-base
+                        [service]="lifeQuoteService.conditionsBenefitsCommercialService">
+                    </app-form-base>
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Planes">
+                <app-form-base
+                    [service]="lifeQuoteService.plansService">
+                </app-form-base>            
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Ajustes">
+                <app-form-base 
+                    [service]="lifeQuoteService.adjustmentService">
+                </app-form-base>
+            </app-sub-panel-form>
+
+            <app-sub-panel-form title="Capital Uniforme - Empleados Rurales" *ngIf="lifeQuoteService.uniformCapitalTypeEnum === uniformCapitalTypeEnum.EmpleadosRurales"  >
+                <app-form-base 
+                    [service]="lifeQuoteService.uniformCapitalFixedWithEmployeesService">
+                </app-form-base>
+            </app-sub-panel-form>`
+
+            <app-sub-panel-form title="Capital Uniforme - Muerte/Invalidez" *ngIf="lifeQuoteService.uniformCapitalTypeEnum === uniformCapitalTypeEnum.MuerteInvalidez"  >
+                <app-form-base 
+                    [service]="lifeQuoteService.uniformCapitalVariableService">
+                </app-form-base>
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Capital Uniforme - Sepelio" *ngIf="lifeQuoteService.uniformCapitalTypeEnum === uniformCapitalTypeEnum.Sepelio"  >
+                <app-form-base 
+                    [service]="lifeQuoteService.uniformCapitalVariableService">
+                </app-form-base>
+            </app-sub-panel-form>
+           
+            <app-sub-panel-form title="Capital Uniforme - Colectivo Obligatorio" *ngIf="lifeQuoteService.uniformCapitalTypeEnum === uniformCapitalTypeEnum.ColectivoObligatorio"  >
+                <app-form-base 
+                    [service]="lifeQuoteService.uniformCapitalFixedWithEmployeesService">
+                </app-form-base>
+            </app-sub-panel-form>
+
+            <app-sub-panel-form title="Asegurados"  [subtitle]="lifeQuoteService.plansService.product" *ngIf="lifeQuoteService.hasInsured"  >
+                <app-form-base 
+                    [service]="lifeQuoteService.insuredService">
+                </app-form-base>
+            </app-sub-panel-form> 
+           
+            <app-sub-panel-form title="Nomina" [subtitle]="lifeQuoteService.plansService.product" *ngIf="lifeQuoteService.hasRosted" >
+                <app-form-base 
+                    [service]="lifeQuoteService.rosterService">
+                </app-form-base>
+            </app-sub-panel-form>
+            <app-sub-panel-form title="Cotizacion" >
+                <app-life-quote-total
+                    [prima]="cotizacion.prima"
+                    [sumaAsegurada]="cotizacion.sumaAsegurada"
+                    [premio]="cotizacion.premio">
+                </app-life-quote-total>
+            </app-sub-panel-form>
+
+           
+            
+        </section>
+       
+    </app-panel-form>
+
+
+    <app-panel-form 
+        title="Emitir"
+        classPanel="col-md-10 offset-md-1">
+        <section>
+            <app-sub-panel-form title="" >
+                <app-form-base 
+                    [service]="lifeQuoteService.emitTakerService">
+                </app-form-base>
+            </app-sub-panel-form> 
+        </section>
+    </app-panel-form>

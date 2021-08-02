@@ -1,0 +1,19 @@
+<section class="">
+    <!--c-form-panel-->
+    <mat-card class="w-100 mat-elevation-z0 p-4">
+        <!--- CABECERA DE PANEL ---->
+        <!--class="c-form-panel-card__header" -->
+        <mat-card-header class="">
+            <mat-card-title class="c-form-panel-card__title">
+                <h5>{{ title }}</h5>
+            </mat-card-title>
+            <mat-card-title class="c-form-panel-card__title" >
+                <h5>{{ subtitle }}</h5>
+            </mat-card-title>
+        </mat-card-header>
+        <!--- BODY DE_ PANEL ---->
+        <mat-card-content class="container sub-panel-container">
+            <ng-content></ng-content>
+        </mat-card-content>
+    </mat-card>
+</section>

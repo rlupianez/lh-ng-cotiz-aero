@@ -1,0 +1,28 @@
+
+<div mat-dialog-title class="row container-fluid">
+    <h5 class="col-9">Póliza Digital</h5>
+    <button class="col-3" mat-button (click)="openImprimirTodos()"><mat-icon class="align-left icon-xs mb-4" svgIcon="group"></mat-icon>Póliza Completa</button>
+</div>
+<div mat-dialog-content class="h-auto container-fluid">
+    <div *ngIf="loading" class="h-100 dialog-blur-overlay">
+        <div class="container-fluid h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="text-center col-2">
+                    <mat-icon class="icon-md mb-2" aria-hidden="false" svgIcon="group"></mat-icon>
+                    <h6>Obteniendo Información</h6>
+                    <mat-spinner class="m-auto" diameter="40"></mat-spinner>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!loading">
+        <app-table class="col-12"
+            [loading]="loading"
+            [iFormControl]="iFormControl.get('list_impresiones')" 
+            [controlOptions]="tableConfig"
+            (customActionClicked)="openImpresion($event)"></app-table>
+    </div>
+</div>
+<div mat-dialog-actions  align="end">
+  <button mat-button cdkFocusInitial (click)="closeDialog()">Cerrar</button>
+</div>

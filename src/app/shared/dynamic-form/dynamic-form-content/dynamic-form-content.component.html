@@ -1,0 +1,13 @@
+
+  <ng-container *ngFor="let field of formConfig['children'] | objectKeys;">
+            
+    <div class="{{ formConfig.children[field].class || 'col' }}" [hidden]="formConfig.children[field]['hidden']">
+        <ng-container
+            appDynamicField
+            appDynamicFieldError
+            [controlOptions]="formConfig.children[field]"
+            [iFormControl]="formGroup.get(field)"></ng-container>
+    </div>
+
+  </ng-container>
+

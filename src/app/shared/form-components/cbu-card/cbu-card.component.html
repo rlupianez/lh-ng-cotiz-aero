@@ -1,0 +1,56 @@
+<div class="container row">
+    <!--- Tarjetas guardadas -->
+    <div class="col-6">
+        <div class="row col-12 mb-4">
+            <h4>CBU disponibles</h4>
+        </div>
+        <div class="row col-12">
+            <div class="col-12" *ngIf="showTarjetasAsegurado">
+                <app-selection-list [controlOptions]="fieldsOptions['tarjeta_aseg']"
+                    [iFormControl]="asegForm.get('tarjeta_aseg')"></app-selection-list>
+            </div>
+        </div>
+        <div class="row col-12">
+           
+            <button mat-stroked-button color="primary" class="btn-add-card w-100 h-50 mt-2" (click)="addCard()">
+                <mat-icon matSuffix>add</mat-icon>
+                Agregar Nuevo CBU
+            </button>
+           
+        </div>
+    </div>
+    <!-- Agregar nueva tarjeta -->
+    <div class="col-6" *ngIf="showAddCard && !asegForm.get('tarjeta_aseg').value">
+            <ng-container>
+               
+                <div class="row col-12 mb-4">
+                    <h4>Agregando nuevo CBU</h4>
+                </div>
+                <div class="row col-12">
+                    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+                                     
+                    <!-- Campo numero de tarjeta -->
+                    <mat-form-field appearance="outline" class="col-12">
+                        <mat-label>Numero de CBU</mat-label>
+                        <input autocomplete="off" type="tel" [formControl]="formNewCreditCard.get('tarjeta_credito')"
+                            matInput maxlength="{{cardLength}}">
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <mat-hint align="end">{{ formNewCreditCard.get('tarjeta_credito').value?.length }} /
+                            {{ cardLength }}</mat-hint>
+                        <mat-error *ngIf="formNewCreditCard.get('tarjeta_credito').errors?.required">Por favor complete este campo</mat-error>
+                        <mat-error *ngIf="formNewCreditCard.get('tarjeta_credito').errors?.invalid">Número de CBU inválido</mat-error>
+                    </mat-form-field>
+                    <!-- Campo Nombre de Titular -->
+                    <mat-form-field appearance="outline" class="col-12">
+                        <mat-label>CUIT</mat-label>
+                        <input matInput [formControl]="formNewCreditCard.get('cuit')" type="number">
+                        <mat-error>Debe tener 11 caracteres</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+            </ng-container>
+        </div>
+
+
+</div>

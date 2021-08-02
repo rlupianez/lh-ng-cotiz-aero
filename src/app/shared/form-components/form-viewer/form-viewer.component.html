@@ -1,0 +1,20 @@
+<div class="container form-viewer" *ngIf="!initialLoading" @fadeIn>
+    <mat-list class="form-list row pt-0">
+        <mat-list-item class="col-12 pl-0 container" *ngFor="let name of fields | objectKeys"> 
+            <span class="item-label pl-0 col-auto pr-1">{{ fields[name].label }}: </span>
+            <span appEllipsisText class="item-text">{{ data[name] }}</span> 
+        </mat-list-item>
+    </mat-list>
+</div>
+
+<div class="container form-viewer" *ngIf="initialLoading || isEmpty">
+    
+    <div class="row col-12 pl-0 container border-0" *ngFor="let name of fields | objectKeys; let idx = index;"> 
+        <app-form-control-skeleton-loader class="w-100 form-row">
+            <!--div class="item-label col-{{ 2 + idx }}"></div><div class="item-text col-{{ 10 - idx }} "></div-->
+            <div class="item-label col-4"></div><div class="item-text col-6"></div>
+        </app-form-control-skeleton-loader>
+    </div>
+    
+</div>
+

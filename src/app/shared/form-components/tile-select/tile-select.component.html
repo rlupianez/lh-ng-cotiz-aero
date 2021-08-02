@@ -1,0 +1,10 @@
+<div class="c-tile-select">
+  <div class="c-tile-select_container" >
+    <mat-button-toggle-group [disabled]="!editable" class="c-tile-select-group" #group="matButtonToggleGroup" (change)="inputChange(group.value)">
+      <mat-button-toggle [checked]="iFormControl.value === item.key" class="c-tile-select-group__item" *ngFor="let item of items" [value]="item.key">
+        <mat-icon *ngIf="item.icon" class="c-tile-select-group__icon">{{ item.icon }}</mat-icon>
+        <h4>{{ item.value }}</h4>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

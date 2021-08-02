@@ -1,0 +1,52 @@
+::ng-deep form .mat-form-field {
+    height: auto;
+    // min-height: 5.6rem;
+}
+
+::ng-deep form {
+    /*
+    .mat-form-field-appearance-outline.ng-valid.ng-touched .mat-form-field-outline {
+       color: #28a745;
+    }
+    */
+
+    
+    
+    /* Cambia el color del texto dentro de los input */
+    
+    /*
+    mat-form-field.ng-valid.ng-touched {
+       .mat-hint, input, ::placeholder,  .mat-form-field-label, .mat-icon-button, .mat-select-value, .mat-select-arrow {
+          color: #28a745 !important;
+       }
+    } 
+    */
+
+    .mat-form-field.ng-valid.ng-touched {
+
+      /*
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+         .mat-form-field-outline-end {
+            border-right: 5px solid green !important;
+         }
+      }
+      */
+
+      .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+         border-color: #28a745 !important;
+      }
+
+      mat-label {
+         color: #28a745 !important;
+      }
+    }
+    
+    
+    
+    /*mat-form-field.ng-valid.ng-touched {
+       .mat-hint, .mat-form-field-label {
+          color: #28a745 !important;
+       }
+    } */
+
+ }

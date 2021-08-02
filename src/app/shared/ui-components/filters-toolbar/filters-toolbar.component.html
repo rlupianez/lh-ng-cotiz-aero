@@ -1,0 +1,74 @@
+<!--mat-progress-bar class="col-12 col-sm-12 col-md-12 col-lg-12" mode="indeterminate"></mat-progress-bar-->
+<div class="container-fluid filter-toolbar-container" *ngIf="!hideWhenLoading" @fadeIn>
+  <form [formGroup]="formFilter">
+    <div class="form-row row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-11">
+        <div class="row">
+          <div *ngIf="loading && !hideWhenLoading" class="filter-toolbar-overlay"></div>
+          <ng-container *ngFor="let filterName of filtersKey">
+
+            <div class="col {{ filters[filterName].class }}" [hidden]="filtersVisibility[filterName] || hideWhenLoading">
+              <ng-container
+                ngDefaultControl
+                appDynamicField
+                appDynamicFieldError
+                [controlOptions]="filters[filterName]"
+                [iFormControl]="formControls[filterName]"></ng-container>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-1 text-right boton-aplicar-margen">
+          <button 
+            mat-button mat-flat-button 
+            class="boton-aplicar" 
+            [hidden]="hideWhenLoading"
+            color="primary" (click)="applyFilters()" [disabled]="!formFilter.valid || applyingFilters || hideWhenLoading || formIsEmpty">
+            <span *ngIf="!applyingFilters">{{ customSubmitBtnText || submitText }}</span>
+            <mat-icon *ngIf="applyingFilters"><mat-spinner diameter="20"></mat-spinner></mat-icon>
+          </button>
+
+      </div>
+    </div>
+  </form>
+</div>
+<!---- Skeleton Filter Toolbar ---->
+<div class="container-fluid filter-toolbar-container" *ngIf="hideWhenLoading">
+ 
+    <div class="form-row row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-11">
+        <div class="row">
+          <!--div *ngIf="loading && !hideWhenLoading" class="filter-toolbar-overlay"></div-->
+          <ng-container *ngFor="let filterName of filtersKey">
+            
+            <ng-container *ngIf="filters[filterName].control.type !== 'date-range' && filters[filterName].control !== 'date-range'">
+              <app-form-control-skeleton-loader class="col {{ filters[filterName].class }}">
+                <div class="form-field"></div>
+              </app-form-control-skeleton-loader>
+            </ng-container>
+
+            <div class="col {{ filters[filterName].class }}" *ngIf="filters[filterName].control.type === 'date-range' || filters[filterName].control === 'date-range'">
+              <div class="row">
+                <app-form-control-skeleton-loader class="col-6">
+                  <div class="form-field"></div>
+                </app-form-control-skeleton-loader>
+                <app-form-control-skeleton-loader class="col-6">
+                  <div class="form-field"></div>
+                </app-form-control-skeleton-loader>
+              </div>
+            </div>
+
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-1 text-right boton-aplicar-margen">
+    
+        <app-form-control-skeleton-loader class="w-100">
+          <div class="form-field"></div>
+        </app-form-control-skeleton-loader>
+      
+      </div>
+    </div>
+  
+</div>

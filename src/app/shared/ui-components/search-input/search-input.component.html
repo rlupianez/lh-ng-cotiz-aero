@@ -1,0 +1,10 @@
+
+            <app-home-search-input
+                #searchControl
+                (focusin)="onFocus($event)" 
+                (focusout)="onFocusOut($event)" 
+                [iFormControl]="control" 
+                [controlOptions]="controlOptions"
+                (inputSuffixEvent)="suffixClicked($event)"
+                (itemSelectedEvent)="itemSelected($event)"
+                class="form-field-md search-autocomplete"></app-home-search-input>      

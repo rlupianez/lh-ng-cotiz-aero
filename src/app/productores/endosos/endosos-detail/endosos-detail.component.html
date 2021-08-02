@@ -1,0 +1,126 @@
+<!--app-detail-view></app-detail-view-->
+<!--mat-progress-bar *ngIf="loading" class="col-12 col-sm-12 col-md-12 col-lg-12" mode="indeterminate"></mat-progress-bar-->
+
+<div class="detail-page p-4 pl-5 pr-5 detail-background-color container-fluid" @fadeIn>
+
+
+    <!----------------------------------------------------------------------------->
+    <!--    DETAIL HEADER       --------------------------------------------------->
+    <!----------------------------------------------------------------------------->
+    
+    <div class="row detail-header-row ml-2">
+
+        <!------------------------>
+        <!--- DETAIL TITLE ------->
+
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 mb-3 row detail-header-title pl-4" *ngIf="!initialLoading" @fadeIn>
+            <button mat-mini-fab aria-label="Atrás" class="detail-btn-back mr-3" (click)="backRoute()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> 
+            <h3 class="detail-header-text w-75 p-0 m-0 font-weight-bold">Detalle Póliza {{ polizaId }}</h3>
+        
+        </div>
+
+        <!--------- Skeleton ---------->
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 row detail-header-title h-100 pl-4" *ngIf="initialLoading">
+            <app-form-control-skeleton-loader class="col-8 h-100 row">
+                <div class="icon-xs col-1"></div>
+                <h5 class="h-100 m-auto col-9"></h5>
+            </app-form-control-skeleton-loader>
+        </div>
+        
+
+        <!------------------------>
+        <!--- ENDOSO NAV ------->
+
+        <div class="navigation col-xs-8 col-sm-12 col-md-4 col-lg-4 mb-3 row justify-content-end" *ngIf="!initialLoading" @fadeIn>
+            <div class="col-1 pl-0" align="end">
+                <button mat-mini-fab [disabled]="!endososData['prev'].endoso" (click)="goToEndoso(endososData['prev'], 'prev')">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+            </div>
+            <div class="col-10 text-center mt-2">
+                <h5 class="nav-text">Endoso {{ endososData['current'] }}</h5>
+            </div>
+            <div class="col-1 pr-0" align="start">
+                <button mat-mini-fab [disabled]="!endososData['next'].endoso" (click)="goToEndoso(endososData['next'], 'next')">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!--------- Skeleton ---------->
+        <div class="navigation col-xs-8 col-sm-12 col-md-4 col-lg-4 row justify-content-end" *ngIf="initialLoading">
+            <app-form-control-skeleton-loader class="col-1 h-100 pl-0">
+                <div class="icon-xs"></div>
+            </app-form-control-skeleton-loader>
+            <app-form-control-skeleton-loader class="col-10 text-center mt-2">
+                <h5></h5>
+            </app-form-control-skeleton-loader>
+            <app-form-control-skeleton-loader class="col-1 pr-0">
+                <div class="icon-xs"></div>
+            </app-form-control-skeleton-loader>
+        </div>
+
+
+
+    </div>
+    <div class="row ml-2">
+
+
+        <!----------------------------------------------------------------------------->
+        <!--    SECCION ICON         --------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+
+        <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6 row justify-content-start align-items-center mb-4 pl-0" *ngIf="!initialLoading" @fadeIn>
+            <div class="section-icon detail-icon-tab text-center">
+                <div class="detail-icon-content">
+                    <img [src]="iconoSeccion" class="img-fluid seccion-img" alt="Sección">
+                </div>
+            </div>  
+            <h3 class="detail-icon-title seccion-title pt-0 text-title-color">{{ polizaSeccion }}</h3>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6 row justify-content-start align-items-center mb-4" *ngIf="initialLoading">
+            <div class="section-icon detail-icon-tab text-center ml-2">
+                <app-form-control-skeleton-loader class="detail-icon-content">
+                    <div class="icon-md"></div>
+                </app-form-control-skeleton-loader>
+            </div>  
+            <app-form-control-skeleton-loader class="col-8">
+                <h3 class="w-100"></h3>
+            </app-form-control-skeleton-loader>
+        </div>
+
+        <!----------------------------------------------------------------------------->
+        <!-- ACCIONES NAV           --------------------------------------------------->
+        <!----------------------------------------------------------------------------->
+
+        <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6 icons-bar mb-4 pr-0">
+            <app-acciones-nav (actionClicked)="polizaAction($event)" [loading]="initialLoading" [items]="actionNav"></app-acciones-nav>
+        </div>
+    </div>
+
+    <!----------------------------------------------------------------------------->
+    <!-- Card Form with Columns --------------------------------------------------->
+    <!----------------------------------------------------------------------------->
+    
+    <div class="panel-form form-card row mb-3 p-4 card-border-primary">
+        <!-- formulario column-->
+        <ng-container *ngFor="let col of detailConfig['card_form'].form | objectKeys">
+            <app-form-viewer [loading]="initialLoading" class="col-xs-12 col-sm-12 col-md col-lg p-0" [formData]="polizaData['p_datos_endoso'][0] || {}" [formConfig]="detailConfig['card_form'].form[col]"></app-form-viewer>
+        </ng-container>
+        
+    </div>
+
+    <!----------------------------------------------------------------------------->
+    <!-- Acordeon form --------------------------------------------------->
+    <!----------------------------------------------------------------------------->
+    <app-accordion-form 
+        [loading]="initialLoading" 
+        [formConfig]="detailConfig" 
+        [iTables]="tables"
+        (actionEvent)="tableAction($event)"
+        (rowClickedEvent)="rowClicked($event)"></app-accordion-form>
+
+</div>

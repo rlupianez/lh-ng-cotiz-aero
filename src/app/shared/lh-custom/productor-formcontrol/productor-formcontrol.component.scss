@@ -1,0 +1,25 @@
+th.mat-header-cell:first-of-type {
+    padding-left: 0 !important; 
+ }
+ 
+ .description-opt {
+    float: right;
+    margin-left: 1rem;
+ }
+ 
+ 
+ @media screen and (max-width: 510px) { 
+ 
+    ::ng-deep .mat-autocomplete-panel .mat-option-text {
+          font-size: 0.8rem !important; 
+    }
+ 
+ }
+ 
+ @media screen and (max-width: 373px) { 
+ 
+    ::ng-deep .mat-autocomplete-panel .mat-option-text {
+          font-size: 0.7rem !important; 
+    }
+ 
+ }

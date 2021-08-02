@@ -1,0 +1,15 @@
+<mat-form-field class="w-100" [appearance]="controlAppearance">
+    <mat-label *ngIf="!labelHidden">{{ controlOptions.label.text || controlOptions.label }}</mat-label>    
+    <input matInput 
+        [formControl]="iFormControl"
+        [required]="isRequired"
+        [type]="inputType"
+        [attr.maxlength]="inputConfig.maxlength"
+        [attr.min]="min"
+        [attr.max]="max"
+        (input)="inputChange($event.target.value)"
+        (blur)="blurEvent($event)"
+        (keyup.enter)="blurEvent($event)"
+        autocomplete="off">
+    <mat-error *ngIf="iFormControl.errors?.required">Por favor complete este campo</mat-error>
+</mat-form-field>

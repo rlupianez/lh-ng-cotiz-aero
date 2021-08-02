@@ -1,0 +1,29 @@
+<div class="d-flex bd-highlight flex-row-reverse">
+    <div class="p-2 flex-fill bd-highlight">
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label font-weight-bold"><h5>Premio</h5></label>
+            <div class="col-sm-6">
+                <input readonly class="coberturas-totales-text form-control-plaintext text-right" value="{{ premio | currency:'$' }}">
+            </div>
+            <div class="col-sm-6">
+                ...
+            </div>
+        </div>
+    </div>
+    <div class="p-2 flex-fill bd-highlight">
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"><h5>Suma Asegurada</h5></label>
+            <div class="col-sm-5">
+                <input type="text" readonly class="coberturas-totales-text form-control-plaintext text-right" value="{{ sumaAsegurada | currency:'$' }}">
+            </div>
+        </div>
+    </div>
+    <div class="p-2 flex-fill bd-highlight">
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-5 col-form-label font-weight-bold"><h5>Prima</h5></label>
+            <div class="col-sm-6">
+                <input type="text" readonly class="coberturas-totales-text form-control-plaintext text-right" value="{{ prima | currency:'$' }}">
+            </div>
+        </div>
+    </div>
+  </div>

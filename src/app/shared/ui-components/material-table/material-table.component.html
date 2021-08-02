@@ -1,0 +1,283 @@
+<div class="list-table fondo-listado pb-4 card-border-secundary" [hidden]="hideWhenLoading" @fadeIn>
+    <!-- TABLE HEADER -->
+    <div class="row col-lg-12 m-0 p-0 justify-content-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-4 pt-4 pl-0">
+            <h4 class="text-title">{{ title }}  <span *ngIf="!tableIsEmpty && itemsTotal">({{ itemsTotal }})</span></h4>
+        </div>
+        <div class="col-6 col-sm-5 col-md-6 col-lg-4 row justify-content-end">
+            <!-- HIDE / SHOW DOWNLOAD EXCEL BUTTON -->
+            <div *ngIf="!hideExcelExport" class="col-4 col-sm-3 col-md-2 col-lg-2 pt-3 mt-0 pr-0 text-left boton-action-container">
+                
+                <button 
+                    class="align-middle boton-excel" 
+                    matTooltip="Descargar Excel" 
+                    (click)="downloadExcel()" 
+                    [disabled]="tableIsEmpty || downloadingExcel || disableExcelExport" mat-icon-button>
+                    <mat-icon *ngIf="!downloadingExcel" svgIcon="down_excel"></mat-icon>
+                    <mat-icon *ngIf="downloadingExcel">
+                        <mat-spinner diameter="20"></mat-spinner>
+                    </mat-icon>
+                </button>
+
+            </div> 
+            <!-- HIDE / SHOW DOWNLOAD BUTTON -->
+            <div *ngIf="!hidePDFDownload" class="col-4 col-sm-3 col-md-2 col-lg-2 pt-3 mt-0 pr-0 text-left boton-action-container">
+               
+                <button
+                    [matBadgeHidden]="rowsSelectedQty === 0"
+                    [matBadge]="rowsSelectedQty" 
+                    matBadgePosition="before" 
+                    matBadgeColor="primary" 
+                    class="align-middle boton-download" 
+                    matTooltip="Descargar" 
+                    (click)="downloadSelected()" 
+                    [disabled]="rowsSelectedQty === 0 || downloadingPDFs" 
+                    mat-icon-button>
+                    <mat-icon *ngIf="!downloadingPDFs" svgIcon="down_group"></mat-icon>
+                    <mat-icon *ngIf="downloadingPDFs"><mat-spinner diameter="20"></mat-spinner></mat-icon>
+                </button>
+
+            </div> 
+            <!-- HIDE / SHOW COLUMNS BUTTON -->
+            <div *ngIf="!hideToggleColumns" class="col-4 col-sm-3 col-md-2 col-lg-2 mt-0 pr-0 pt-3 text-left pr-0 boton-action-container">
+            
+                <button 
+                    class="align-middle boton-columnas" 
+                    mat-icon-button matTooltip="Mostrar/Ocultar columnas" 
+                    [matMenuTriggerFor]="menu">
+                    <mat-icon svgIcon="column_list"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <ng-container *ngFor="let name of displayedColumns">
+                        <ng-container *ngIf="name !== 'select' && name !== 'descargar' && columns[name].label">
+                            <div mat-menu-item (click)="$event.stopPropagation()">
+                                <!--span><input type="checkbox" [(ngModel)]="columns[name].visible"> {{ columns[name].label }}</span-->
+                                <span><input type="checkbox" (change)="toggleColumn(name)" [checked]="columns[name].visible" [disabled]="visibleColsQty.length <= 2 && columns[name].visible"> {{ columns[name].label }}</span>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </mat-menu>
+            </div>
+        </div>
+        <!-- SEARCH IN TABLE -->
+        <div class="col-6 col-sm-7 col-md-6 col-lg-4 pt-2">
+           
+            <mat-form-field class="w-100 boton-buscar" appearance="outline" [hidden]="hideWhenLoading">
+                <mat-label>Ingresar búsqueda</mat-label>
+                <input matInput (keyup)="applyFilter()" [(ngModel)]="searchText" [disabled]="tableIsEmpty" (focus)="searchFocused=true" (blur)="searchFocused=false">
+                <button  *ngIf="searchText" mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-icon matPrefix matTooltip="Buscar" style="cursor: pointer">search</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="spinner-loading-shade" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="blur-table-overlay" *ngIf="!tableIsEmpty && filtersChanged && !isLoading"></div>
+    <div class="table-list table-content pb-2 ml-3 mr-3">
+        
+        <table mat-table [class]="tableStyle" [dataSource]="dataSource" matSort>
+            
+            <ng-container *ngFor="let name of displayedColumns">   
+            
+                <!-- columna select: checkbox -->
+                <ng-container *ngIf="name === 'select'" matColumnDef="select" sticky>
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox 
+                                    (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()"
+                                    [disabled]="tableIsEmpty"
+                                    matTooltip="Seleccionar/Deseleccionar todas">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell  class="cuerpo-listado" *matCellDef="let row">
+                        <mat-checkbox 
+                                    class="ml-3"
+                                    (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)"
+                                    [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- COLUMNS -->
+                <ng-container *ngIf="!columns[name].action && name !== 'select'" [matColumnDef]="name">
+                    <th mat-header-cell class="text-center pl-3" *matHeaderCellDef mat-sort-header [hidden]="!columns[name].visible">
+                        <h5 class="table-header-title">{{ columns[name].label }}</h5>
+                    </th>
+                    <td mat-cell class="{{ columns[name].cellStyle || 'text-center' }} cuerpo-listado" *matCellDef="let row" [hidden]="!columns[name].visible"> 
+                            <span class="mobile-label">{{ columns[name].label }}:</span>
+
+                            <span *ngIf="!columns[name].formatter" class="row-text pl-1 pr-1 text-inline">
+                                <span *ngIf="columns[name].prefix"> {{ row[columns[name].prefix] }} </span>
+                                {{ row[name] }}
+                                <span *ngIf="columns[name].suffix"> - {{ row[columns[name].suffix] }}</span>
+                            </span> 
+
+                            <span *ngIf="columns[name].formatter">
+                                <ng-container *ngFor="let value of columns[name].formatter | objectKeys;">
+                                    <span *ngIf="value === row[name] && columns[name].formatter[value].value">
+                                        {{ columns[name].formatter[value].value }}
+                                    </span>
+                                    <mat-icon *ngIf="value === row[name] && columns[name].formatter[value].icon" [matTooltip]="columns[name].tooltip" (click)="$event.stopPropagation();linkRowClicked(name, row)">
+                                        {{ columns[name].formatter[value].icon }}
+                                    </mat-icon>
+                                    <!--- mostrar cuando no esta vacio NOT_EMPTY-->
+                                    <mat-icon *ngIf="value === 'NOT_EMPTY' && row[name] && columns[name].formatter[value].icon" [matTooltip]="columns[name].tooltip" (click)="$event.stopPropagation();linkRowClicked(name, row)">
+                                        {{ columns[name].formatter[value].icon }}
+                                    </mat-icon>
+                                </ng-container>
+                                <span *ngIf="row[name] === null && columns[name].defaultValue">
+                                    {{ columns[name].defaultValue }}
+                                </span>
+                            </span>
+                            <!--- Icono con LINK -->
+                            <!--- SVG ICON -->
+                            <mat-icon 
+                                class="text-color-primary"
+                                *ngIf="columns[name].type === 'link' && columns[name].svgIcon" 
+                                [svgIcon]="columns[name].svgIcon"
+                                (click)="$event.stopPropagation();linkRowClicked(name, row)"
+                                [matTooltip]="columns[name].tooltip"></mat-icon>
+                            <!--- MATERIAL ICON -->
+                            <mat-icon 
+                                class="text-color-primary"
+                                *ngIf="columns[name].type === 'link' && columns[name].icon" 
+                                (click)="$event.stopPropagation();linkRowClicked(name, row)"
+                                [matTooltip]="columns[name].tooltip">{{ columns[name].icon }} </mat-icon>
+
+                    </td>
+                </ng-container>
+
+                <!-- ACTIONS -->
+                <ng-container *ngIf="columns[name].action" [matColumnDef]="name">
+            
+                    <th mat-header-cell class="text-center" *matHeaderCellDef>
+                        <h5 class="text-black">{{ columns[name].label }}</h5>
+                    </th>
+                    <td mat-cell class="text-center cuerpo-listado" *matCellDef="let row"> 
+                        <!--span class="mobile-label">{{ columns[name].label }}</span-->
+                        <button class="align-middle" (click)="$event.stopPropagation();download(row, columns[name].field)" mat-icon-button [matTooltip]="columns[name].tooltip || 'Descargar PDF'">
+                            <!--i class="fas fa-download" (click)="download()" style="font-size: 1.1rem;"></i-->
+                            <i [class]="columns[name].icon"></i>
+                        </button>
+                        <ng-container *ngIf="columns[name].prefix">
+                            <button class="align-middle" mat-icon-button [matTooltip]="columns[name].prefix.tooltip" (click)="$event.stopPropagation();download(row, columns[name].prefix.field)">                            
+                                <i [class]="columns[name].prefix.icon"></i>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+            </ng-container>
+            <ng-container matColumnDef="noData">
+                <td [hidden]="!tableIsEmpty" mat-footer-cell *matFooterCellDef colspan="100%" class="text-center empty-table-text">
+                    {{ emptyTableText }}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row class="cabecera-listado" *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row @rowsAnimation style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)">
+            </tr>
+
+            <!--ng-container *ngIf="tableIsEmpty"--> 
+            <tr class="empty-table-row" @fadeIn mat-footer-row *matFooterRowDef="['noData']" [hidden]="hideWhenLoading || !tableIsEmpty"></tr>
+            <!--/ng-container-->
+        </table>
+        <button [hidden]="hideWhenLoading" mat-button *ngIf="showLoadMoreRow" class="load-more-row color-primary-dark mt-2" (click)="loadMoreData()">
+                <mat-icon>more_horiz</mat-icon> Mostrar más
+        </button>
+        <!--div [hidden]="hideWhenLoading" mat-paginator class="load-more-btn row p-5 ml-2 mr-2 border-bottom" *ngIf="itemsTotal === 0">
+            <p class="m-auto text-center">{{ emptyTableText }}</p>
+        </div-->
+    </div>
+    <mat-paginator 
+        [hidden]="loadMoreBtn"
+        [class.no-pag-actions]="!showLoadMoreRow" 
+        [length]="itemsTotal" 
+        [pageSize]="pageSize" 
+        [pageSizeOptions]="[25, 50, 100]" 
+        (page)="changePage($event)"></mat-paginator>
+</div>
+<!------ Skeleton table -------->
+<div class="list-table fondo-listado pb-4 skeleton-loader" *ngIf="hideWhenLoading">
+    <!-- TABLE HEADER -->
+    <div class="row col-lg-12 m-0 p-0 justify-content-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-4 pt-4 pl-0">
+
+            <app-form-control-skeleton-loader class="w-100">
+                <h4></h4>
+            </app-form-control-skeleton-loader>
+
+        </div>
+        <div class="col-6 col-sm-5 col-md-6 col-lg-4 row justify-content-end">
+            <!-- HIDE / SHOW DOWNLOAD EXCEL BUTTON -->
+            <div *ngIf="!hideExcelExport" class="col-4 col-sm-3 col-md-2 col-lg-2 mt-0 pt-2 pr-0 text-left boton-action-container">
+                <app-form-control-skeleton-loader class="w-100">
+                    <div class="form-field"></div>
+                </app-form-control-skeleton-loader>
+               
+            </div> 
+            <!-- HIDE / SHOW DOWNLOAD BUTTON -->
+            <div *ngIf="!hidePDFDownload" class="col-4 col-sm-3 col-md-2 col-lg-2 mt-0 pt-2 pr-0 text-left boton-action-container">
+
+                <app-form-control-skeleton-loader class="w-100">
+                    <div class="form-field"></div>
+                </app-form-control-skeleton-loader>
+               
+            </div> 
+            <!-- HIDE / SHOW COLUMNS BUTTON -->
+            <div *ngIf="!hideToggleColumns" class="col-4 col-sm-3 col-md-2 col-lg-2 mt-0 pr-0 pt-2 text-left pr-0 boton-action-container">
+
+                <app-form-control-skeleton-loader class="w-100">
+                    <div class="form-field"></div>
+                </app-form-control-skeleton-loader>
+
+            </div>
+        </div>
+        <!-- SEARCH IN TABLE -->
+        <div class="col-6 col-sm-7 col-md-6 col-lg-4 pt-2">
+
+            <app-form-control-skeleton-loader class="w-100">
+                <div class="form-field"></div>
+            </app-form-control-skeleton-loader>
+           
+        </div>
+    </div>
+    <div class="table-content pb-2 ml-3 mr-3">
+        <!--- Skeleton Loader -->
+        <app-form-control-skeleton-loader class="w-100 table">
+            <table>
+                <thead>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                    </tr>
+                    <tr>
+                        <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                    </tr>
+                    <tr>
+                        <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                    </tr>
+                    <tr>
+                        <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                    </tr>
+                    <tr>
+                        <td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td><td><p></p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </app-form-control-skeleton-loader>
+        <!--- FIN Skeleton Loader -->
+    </div>
+    
+</div>

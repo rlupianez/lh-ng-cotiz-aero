@@ -1,0 +1,11 @@
+<!-- PROGRESS BAR -->
+<mat-progress-bar *ngIf="progressBarService.visibility | async" class="app-progress-bar" color="primary" mode="indeterminate"></mat-progress-bar>
+<app-loader></app-loader>
+
+    <div class="container-fluid pt-3 page-container">
+      <app-header-nav *ngIf="showSearch"></app-header-nav>
+      <router-outlet (activate)="onActivate($event, outlet)" #outlet></router-outlet>
+    </div>
+<!--div>
+  <router-outlet></router-outlet>
+</div-->

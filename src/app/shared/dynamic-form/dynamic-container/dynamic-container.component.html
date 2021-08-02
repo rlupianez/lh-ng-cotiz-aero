@@ -1,0 +1,91 @@
+<mat-accordion class="row" multi="true">
+    <ng-container *ngFor="let field of formConfig | objectKeys;">
+            <!--- Si posee componentes hijos -->
+            <ng-container *ngIf="formConfig[field]['children']">
+                
+                <!-- si el container es panel -->
+                <mat-expansion-panel 
+                    [hidden]="formConfig[field]['hidden']"
+                    *ngIf="formConfig[field]['container'] === 'expansion-panel'"
+                    [expanded]="formConfig[field]['expanded']" 
+                    (opened)="itemPanelSelected(field,true)" 
+                    (closed)="itemPanelSelected(field,false)" 
+                    class="w-100 mat-elevation-z0 border-gray {{ formConfig[field]['class'] }}">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title class="title-section">
+                            <div *ngIf="formConfig[field].icon">
+                                <!--div [innerHTML]="formConfig[field].title"></div-->
+                                <mat-icon class="pt-1" *ngIf="formConfig[field]['icon']" mat-list-icon>{{ formConfig[field]['icon'] }}</mat-icon> 
+                            </div>
+                           
+                        </mat-panel-title> 
+                        <mat-panel-description class="col-6 title-section pt-3">
+                            <div *ngIf="formConfig[field].title">
+                                <!--div [innerHTML]="formConfig[field].title"></div-->
+                                <!--mat-icon *ngIf="formConfig[field]['icon']" mat-list-icon>{{ formConfig[field]['icon'] }}</mat-icon-->
+                                <h5 class="text-title text-color-primary">{{ formConfig[field].title }}</h5>
+                            </div>
+                            <span mat-icon-button class="ml-2" *ngIf="formGroup.get(field)">
+                                <mat-icon *ngIf="formGroup.get(field).touched && formGroup.get(field).valid" class="text-success" mat-list-icon>check_circle_outline</mat-icon>
+                                <mat-icon *ngIf="formGroup.get(field).touched && formGroup.get(field).invalid" class="text-danger" mat-list-icon>highlight_off</mat-icon>    
+                            </span>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    
+                    
+                    <app-dynamic-container 
+                        *ngIf="formGroup.get(field)"
+                        [hidden]="formConfig[field]['hidden']"
+                        class="{{ formConfig[field].class }}" 
+                        [formConfig]="formConfig[field]['children']"
+                        [formGroup]="formGroup.get(field)">
+                    </app-dynamic-container>
+                </mat-expansion-panel>
+
+                <!-- si no es expansion panel -->
+                <ng-container *ngIf="formConfig[field]['container'] !== 'expansion-panel'">
+                    <div *ngIf="formConfig[field].title" class="row col-12">
+                             
+                        <div class="title-section col-12">
+                            
+                            <h6>
+                                <mat-icon *ngIf="formConfig[field]['icon']" class="align-bottom mr-2" mat-list-icon>{{ formConfig[field]['icon'] }}</mat-icon> 
+                                <span>{{ formConfig[field].title }}</span>
+                                <span mat-icon-button class="ml-2" *ngIf="formGroup.get(field)">
+                                    <mat-icon *ngIf="formGroup.get(field).touched && formGroup.get(field).valid" class="text-success align-bottom" mat-list-icon>check_circle_outline</mat-icon>
+                                    <mat-icon *ngIf="formGroup.get(field).touched && formGroup.get(field).invalid" class="text-danger align-bottom" mat-list-icon>highlight_off</mat-icon>    
+                                </span>
+                            </h6>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <app-dynamic-container 
+                        *ngIf="formGroup.get(field)"
+                        [hidden]="formConfig[field]['hidden']"
+                        class="{{ formConfig[field].class }}" 
+                        [formConfig]="formConfig[field]['children']" 
+                        [formGroup]="formGroup.get(field)"></app-dynamic-container>
+                </ng-container>
+
+            </ng-container>
+            <!-- Si no posee componentes hijos -->
+            
+            <!-- Aca hay que crear un componente generico para todos los Form Control, ej: Dynamic form Control-->
+            <ng-container *ngIf="!formConfig[field]['children']">
+                
+                <div class="{{ formConfig[field].class || 'col' }}" 
+                    [hidden]="formConfig[field]['hidden']">
+
+                    <ng-container
+                        *ngIf="!formConfig[field]['children'] && formGroup.get(field)"
+                        appDynamicField
+                        appDynamicFieldError
+                        [controlOptions]="formConfig[field]"
+                        [iFormControl]="formGroup.get(field)"></ng-container>
+                </div>
+            </ng-container>   
+                
+    </ng-container>
+</mat-accordion>

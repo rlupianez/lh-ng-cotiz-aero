@@ -1,0 +1,64 @@
+<mat-form-field class="w-100" [appearance]="controlAppearance">
+    <mat-label *ngIf="!labelHidden" >{{ controlOptions.label.text || controlOptions.label }}</mat-label>    
+    <input *ngIf="currency" matInput 
+        [formControl]="iFormControl"
+        [required]="isRequired"
+        [type]="inputType"
+        [attr.maxlength]="inputConfig.maxlength"
+        [attr.min]="min"
+        [attr.max]="max"
+        (input)="inputChange($event.target.value)"
+        (blur)="blurEvent($event)"
+        (keyup.enter)="blurEvent($event)"
+        autocomplete="off"
+        prefix="$"
+        mask="separator.2" thousandSeparator="."     
+        >
+        <input *ngIf="!currency && !pmd" matInput 
+        [formControl]="iFormControl"
+        [required]="isRequired"
+        [type]="inputType"
+        [attr.maxlength]="inputConfig.maxlength"
+        [attr.min]="min"
+        [attr.max]="max"
+        [(ngModel)]="controlOptions.value"
+        (input)="inputChange($event.target.value)"
+        (blur)="blurEvent($event)"
+        (keyup.enter)="blurEvent($event)"  
+        >
+        <input *ngIf="pmd" matInput 
+        [formControl]="iFormControl"
+        [required]="isRequired"
+        [type]="inputType"
+        [attr.maxlength]="inputConfig.maxlength"
+        [attr.min]="min"
+        [attr.max]="max"
+        (input)="inputChange($event.target.value)"
+        (blur)="blurEvent($event)"
+        (keyup.enter)="blurEvent($event)"
+        autocomplete="off"
+        suffix=" Kg"
+        mask="separator.2" thousandSeparator="."     
+        >
+        
+    <mat-error *ngIf="iFormControl.errors?.required">Por favor complete este campo</mat-error>
+    <mat-error *ngIf="iFormControl.errors?.minlength">
+        La longitud minima es de {{ iFormControl.errors?.minlength?.requiredLength }} carácteres
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.maxlength">
+        La longitud máxima es de {{ iFormControl.errors?.maxlength?.requiredLength }} carácteres
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.max">
+        El valor ingresado no debe ser superior a {{ iFormControl.errors?.max?.max }}
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.min">
+        El valor ingresado no debe ser menor a {{ iFormControl.errors?.min?.min }}
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.email">
+        Debe ingresar un email válido
+    </mat-error>
+    <mat-error *ngIf="iFormControl.errors?.cbu">
+        El CBU ingresado es inválido
+    </mat-error>
+
+</mat-form-field>

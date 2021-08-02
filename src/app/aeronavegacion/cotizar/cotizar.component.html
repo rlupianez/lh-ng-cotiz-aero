@@ -1,0 +1,234 @@
+<app-panel-form 
+title="Cotizador Aeronavegación"
+btnLabelPrimary="confirmar" 
+btnLabelSecundary="Atras" 
+[disabledBtnPrimary]="false"
+[isDisabled]="!cotizarService.coberturasService.valid || cotizacionEmitida"
+(eventActionPrimary)="finalizar()" 
+classPanel="col-md-10 offset-md-1">
+  <section class="divide-panel">
+
+    <!--------------------------------------->
+    <!-------- Datos Productor Panel -------->
+    <!--------------------------------------->
+    <app-sub-panel-form title="Datos Productor"  >
+      <form 
+        class="dynamic-form" 
+        [formGroup]="cotizarService.datosProductorService.formGroup"> 
+        <app-dynamic-form-content 
+            class="row"
+            [formConfig]="cotizarService.datosProductorService.formGroupConfig" 
+            [formGroup]="cotizarService.datosProductorService.formGroup">
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form>
+
+
+    <!--------------------------------------->
+    <!-------- Datos TOMADOR Panel -------->
+    <!--------------------------------------->
+    <app-sub-panel-form title="Datos Tomador"  >
+      <form class="dynamic-form" 
+        [formGroup]="cotizarService.datosTomadorService.formGroup"> 
+        <app-dynamic-form-content  
+          class="row"
+          [formConfig]="cotizarService.datosTomadorService.formGroupConfig" 
+          [formGroup]="cotizarService.datosTomadorService.formGroup">
+      </app-dynamic-form-content>
+    </form>
+    </app-sub-panel-form>
+
+     <!----------------------------------------------->
+    <!-------- Productos ----------------------->
+    <!----------------------------------------------->
+    <app-sub-panel-form title="Productos"  >
+      <form
+          class="dynamic-form"
+          [formGroup]="cotizarService.productosService.formGroup"> 
+          <app-dynamic-form-content  
+            class="row"
+            [formConfig]="cotizarService.productosService.formGroupConfig" 
+            [formGroup]="cotizarService.productosService.formGroup">
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form>
+
+    <!----------------------------------------------->
+    <!-------- Datos de Riesgo ----------------------->
+    <!----------------------------------------------->
+
+    <app-sub-panel-form title="Datos de Riesgo"  >
+     
+      <form
+          class="dynamic-form"
+          [formGroup]="cotizarService.riesgosService.datosRiesgo.formGroup"
+          > 
+          <app-dynamic-form-content  
+            class="row"
+            [formConfig]="cotizarService.riesgosService.datosRiesgo.formGroupConfig" 
+            [formGroup]="cotizarService.riesgosService.datosRiesgo.formGroup"
+            >
+        </app-dynamic-form-content>
+      </form>
+      <div *ngIf="plazasInvalidas"><span style="color:red;">La suma de tripulantes/pasajeros no debe ser mayor a la cantidad de plazas</span></div>
+      <div *ngIf="plazasError()"><span style="color:red;">No puede haber tripulantes/pasajeros en 0</span></div>
+      <div *ngIf="errorMatricula"><span style="color:red;">La matricula no respeta el formato {{ ejemploMatricula }}</span></div>
+      <div *ngIf="mostrarEjemploMatriculaNumerica"><span style="font-style: oblique">*El formato de la matricula debe ser {{ ejemploMatricula }} donde 'n' son numeros</span></div>
+      <div *ngIf="mostrarEjemploMatricula" style="margin-bottom: 20px"><span style="font-style: oblique">*El formato de la matricula debe ser {{ ejemploMatricula }} donde 'x' son numeros o letras</span></div>
+      
+    </app-sub-panel-form>
+
+    <!----------------------------------------------->
+    <!-------- Usos --------------------------------->
+    <!----------------------------------------------->
+    <app-sub-panel-form title="Usos"  *ngIf="showUsePanel"  >
+      <form
+          class="dynamic-form container"
+          [formGroup]="cotizarService.usosService.formGroup"> 
+          <app-dynamic-form-content  
+            class="row"
+            [formConfig]="cotizarService.usosService.formGroupConfig" 
+            [formGroup]="cotizarService.usosService.formGroup"
+            >
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form>
+
+    <!----------------------------------------------->
+    <!-------- Tipo de Riesgo ----------------------->
+    <!----------------------------------------------->
+
+ 
+    <app-sub-panel-form title="Tipo de Riesgo" *ngshow="false"  >
+      <form
+          class="dynamic-form"
+          [formGroup]="cotizarService.riesgosService.tipoRiesgo.formGroup"> 
+          <app-dynamic-form-content  
+            class="row"
+            [formConfig]="cotizarService.riesgosService.tipoRiesgo.formGroupConfig" 
+            [formGroup]="cotizarService.riesgosService.tipoRiesgo.formGroup">
+        </app-dynamic-form-content>
+      </form> 
+
+    </app-sub-panel-form> 
+    
+
+ <!----------------------------------------------->
+    <!-------- Condiciones Comerciales Panel -------->
+    <!----------------------------------------------->
+    <app-sub-panel-form title="Condiciones y beneficios Comerciales"  >
+      <form
+        class="dynamic-form"
+        [formGroup]="cotizarService.condicionesComercialesService.formGroup"> 
+        <app-dynamic-form-content  
+          class="row"
+          [formConfig]="cotizarService.condicionesComercialesService.formGroupConfig" 
+          [formGroup]="cotizarService.condicionesComercialesService.formGroup">
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form>
+    
+    <!----------------------------------------------->
+    <!-------- Coberturas --------------------------------->
+    <!----------------------------------------------->
+
+<!--     <app-sub-panel-form title="Productos"  >
+      <form
+          class="dynamic-form"
+          [formGroup]="cotizarService.coberturasService.formGroup"> 
+          <app-dynamic-form-content  class="row"
+            [formConfig]="cotizarService.coberturasService.formGroupConfig" [formGroup]="cotizarService.coberturasService.formGroup">
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form> -->
+
+    <!--<app-sub-panel-form title="Coberturas"  >
+      <form
+        class="dynamic-form"
+        [formGroup]="cotizarService.coberturasService.formGroup"> 
+          <app-dynamic-form-content  
+            class="row"
+            [formConfig]="cotizarService.coberturasService.formGroupConfig" 
+            [formGroup]="cotizarService.coberturasService.formGroup">
+        </app-dynamic-form-content>
+      </form>
+    </app-sub-panel-form> -->
+
+    <app-sub-panel-form title="Coberturas">    
+      <div *ngIf="mostrarTabla" style="overflow: scroll;">
+      <app-cobertura-seleccionada *ngFor="let entity of listCoberturas.sort(compare); let i = index" (coberturaAdded)="coberturaAdded($event)" (sumarPlaza)="sumarPlaza($event)" (nuevaSumaAsegurada)="nuevaSumaAsegurada($event)"
+        [cobertura] = "listCoberturas[i]">
+        </app-cobertura-seleccionada>
+      </div>
+    </app-sub-panel-form>
+    <div *ngIf="mostrarErrorTabla"><span style="color:red;">Debe ingresar una suma asegurada por asiento dentro del rango (mínimo ${{sumaAseguradaMin}} máximo ${{sumaAseguradaMax}})</span></div>
+      <div *ngIf="!tableIsEmpty && mostrarTabla" class="d-flex bd-highlight flex-row-reverse mt-5">
+        <div class="p-2 flex-fill bd-highlight">
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-5 col-form-label font-weight-bold"><h5>Premio</h5></label>
+                <div class="col-sm-6">              
+                    <input 
+                         class="coberturas-totales-text form-control-plaintext text-right"
+                          [prefix]="simboloMoneda"
+                          mask="separator.2" 
+                          thousandSeparator="." 
+                          decimalMarker=","
+                          readonly
+                          name="premioTotal" 
+                          #premioTotal="ngModel"         
+                          matInput           
+                          type="text"
+                          [(ngModel)]="totals['premio']" 
+                          style="margin-top: 0.6em"
+                          >
+                </div>
+            </div>
+        </div>
+        <div class="p-2 flex-fill bd-highlight">
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"><h5>Suma Asegurada</h5></label>
+                <div class="col-sm-5">
+                   <!-- <input type="text" readonly class="coberturas-totales-text form-control-plaintext text-right" value="{{ totals['suma_asegurada'] | currency:'$' : simboloMoneda }}">-->
+                    <input 
+                         class="coberturas-totales-text form-control-plaintext text-right"
+                          [prefix]="simboloMoneda"
+                          mask="separator.2" 
+                          thousandSeparator="." 
+                          decimalMarker=","
+                          readonly
+                          name="sumaAseguradaTotal" 
+                          #sumaAseguradaTotal="ngModel"         
+                          matInput           
+                          type="text"
+                          [(ngModel)]="totals['suma_asegurada']" 
+                          style="margin-top: 0.6em"
+                          >
+                </div>
+            </div>
+        </div>
+        <div class="p-2 flex-fill bd-highlight">
+            <div class="form-group row">
+                <label for="staticEmail" class="col-sm-5 col-form-label font-weight-bold"><h5>Prima</h5></label>
+                <div class="col-sm-6">                  
+                    <input 
+                    class="coberturas-totales-text form-control-plaintext text-right"
+                     [prefix]="simboloMoneda"
+                     mask="separator.2" 
+                     thousandSeparator="." 
+                     decimalMarker=","
+                     readonly
+                     name="primaTotal" 
+                     #primaTotal="ngModel"         
+                     matInput           
+                     type="text"
+                     [(ngModel)]="totals['prima']" 
+                     style="margin-top: 0.6em"
+                     >
+                  </div>
+            </div>
+        </div>
+      </div>
+  </section>
+
+ 
+</app-panel-form>

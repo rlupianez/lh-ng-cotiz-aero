@@ -1,0 +1,22 @@
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  .input-radio-label label {
+    margin-right: 15px;
+    font-weight: 400;
+    padding-right: 20px;
+  }
+
+
+  
+
+/* Para 700px */  
+@media only screen and (max-width: 700px) {  
+  .input-radio-label label {
+    margin-right: 15px;
+    font-weight: 200;
+    padding-right: 20px;
+  }
+}  

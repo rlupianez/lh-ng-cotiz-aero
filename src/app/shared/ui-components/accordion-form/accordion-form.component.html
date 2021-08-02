@@ -1,0 +1,121 @@
+    <div class="accordeon-form row mb-3 card-border-secundary" >
+        <div class="col-12">
+            <!--------- ACCORDION HEADER ICONS ------------>
+            <nav class="accordeon-header nav nav-pills flex-column flex-sm-row mb-3 mt-3" *ngIf="!initialLoading" @fadeIn>
+                <button class="accordeon-header-tab flex-fill text-center ml-4" 
+                    [disabled]="config['expansion_form'].panels[item['name']].disabled"
+                    *ngFor="let item of headerTab"
+                    (click)="config['expansion_form'].panels[item['name']].expanded = !config['expansion_form'].panels[item['name']].expanded">
+                    <mat-icon class="accordeon-header-icon" aria-hidden="false" [svgIcon]="item['icon']"></mat-icon>
+                    <h5 class="accordeon-header-icon-title pt-2" 
+                        *ngIf="config['expansion_form'].panels[item['name']].expanded"><strong>{{ item['text'] }}</strong></h5>
+                    <h5 class="accordeon-header-icon-title pt-2" 
+                        *ngIf="!config['expansion_form'].panels[item['name']].expanded">{{ item['text'] }}</h5>
+                </button>
+            </nav>
+
+            <nav class="accordeon-header nav nav-pills flex-column flex-sm-row" *ngIf="initialLoading">
+                <button class="accordeon-header-tab flex-fill text-center ml-4" *ngFor="let item of headerTab">
+
+                    <app-form-control-skeleton-loader class="col-8 text-center mt-2">
+                        <div class="milista-item mb-2"></div>
+                        <h5 class="col-10 m-auto"></h5>
+                    </app-form-control-skeleton-loader>
+                    
+                </button>
+            </nav>
+
+        </div>
+        <!--------- ACCORDION PANELS ------------> 
+        <mat-accordion class="col-12" *ngFor="let name of config['expansion_form'].panels | objectKeys" >
+            <mat-expansion-panel class="mat-elevation-z0 bordered-panel"
+                [ngClass]="{ 
+                    'form-accordion-active': config['expansion_form'].panels[name].expanded 
+                }"
+                (opened)="config['expansion_form'].panels[name].expanded = true"
+                (closed)="config['expansion_form'].panels[name].expanded = false"
+                [expanded]="config['expansion_form'].panels[name].expanded"
+                [disabled]="config['expansion_form'].panels[name].disabled || initialLoading">
+                <!--------- ACCORDION PANEL HEADER ------------>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+
+                        <ng-container *ngIf="!initialLoading">
+                            <span 
+                                *ngIf="config['expansion_form'].panels[name].expanded"><strong>{{ config['expansion_form'].panels[name]['text'] }}</strong></span>
+                            <span 
+                                *ngIf="!config['expansion_form'].panels[name].expanded"> {{ config['expansion_form'].panels[name]['text'] }}</span>
+                        </ng-container>
+
+                        <app-form-control-skeleton-loader class="col-4 text-center mt-2" *ngIf="initialLoading">
+                            <h5></h5>
+                        </app-form-control-skeleton-loader>
+
+                    </mat-panel-title>
+
+                
+                </mat-expansion-panel-header>
+
+                <div *ngIf="!initialLoading">
+                    
+                    <ng-container *ngFor="let section of config['expansion_form'].panels[name].content | objectKeys">
+                        <!--mat-progress-bar *ngIf="config['expansion_form'].panels[name].loading" class="col-12 col-sm-12 col-md-12 col-lg-12" mode="indeterminate"></mat-progress-bar-->
+                            <ng-container>
+               
+                            <!--------- ACCORDION PANEL CONTENT - SI ES FORM ------------>
+                            <div class="form-card row pl-4 pr-4" 
+                                *ngIf="!config['expansion_form'].panels[name].content[section].list || 
+                                    ( config['expansion_form'].panels[name].content[section].list?.control.defaultData?.length === 1 && config['expansion_form'].panels[name].content[section].form )">
+
+                                <ng-container *ngIf="config['expansion_form'].panels[name].content[section].list?.control.defaultData?.length === 1 && config['expansion_form'].panels[name].content[section].form.showActionBar">
+                                    <div class="row col-12 justify-content-end pr-0">
+                                        <button class="col-2" mat-stroked-button (click)="panelAction({ data: config['expansion_form'].panels[name].content[section].list?.control.defaultData[0] ,name: name, section: section})">
+                                            <mat-icon class="align-left icon-xs mb-4" svgIcon="group"></mat-icon>
+                                            Ver {{ config['expansion_form'].panels[name].content[section].form.title }}
+                                        </button>
+                                    </div>
+                                </ng-container>
+                               
+                                <!--------- FORM VIEWER ------------>
+                                <ng-container *ngFor="let fieldCol of config['expansion_form'].panels[name].content[section].form | formViewerColumns">
+
+                                    <app-form-viewer
+                                        [loading]="config['expansion_form'].panels[name].loading"
+                                        class="col-xs-12 col-sm-12 col-md-{{ 12 / config['expansion_form'].panels[name].content[section].form['cols'] }} col-lg-{{ 12 / config['expansion_form'].panels[name].content[section].form['cols'] }} p-0" 
+                                        [formConfig]="fieldCol" 
+                                        [formData]="config['expansion_form'].panels[name].content[section].list?.control.defaultData[0] || {}"></app-form-viewer>      
+
+                                </ng-container>
+                            </div> 
+            
+                            <!--------- ACCORDION PANEL CONTENT - SI ES TABLE ------------>
+                            <div class="row" *ngIf="config['expansion_form'].panels[name].content[section].list?.control.defaultData?.length > 1 || !config['expansion_form'].panels[name].content[section].form">
+                                
+                                <!--------- TABLE ------------>
+                                <ng-container *ngIf="config['expansion_form'].panels[name].content[section].list">
+                                   
+                                    <app-table class="col-12"
+                                        [loading]="config['expansion_form'].panels[name].loading"
+                                        [iFormControl]="iTables[section]"
+                                        [controlOptions]="config['expansion_form'].panels[name].content[section].list"
+                                        (rowClicked)="rowClicked($event,name,section)"
+                                        (customActionClicked)="customActionClicked($event,name,section)"></app-table>
+
+                                </ng-container>
+                            </div>
+
+                            <!--------- ACCORDION PANEL CONTENT - SI ESTA VACIO ------------>
+                            <div class="row h-xs" *ngIf="config['expansion_form'].panels[name].content[section].list?.control.defaultData?.length === 0">
+                                <p class="m-auto text-center">
+                                    {{ config['expansion_form'].panels[name].content[section].list?.control.emptyMessage }}
+                                </p>
+                            </div>
+
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </div>

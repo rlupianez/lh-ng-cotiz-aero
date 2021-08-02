@@ -1,0 +1,45 @@
+<app-sub-panel-form title="Adjuntar información digital">
+  <mat-list>
+    <mat-list-item class="row">
+      <div class="col-sm-4 col-md-4 col-lg-5"> Tipo de documento</div>
+      <div class="col-sm-4 col-md-4 col-lg-6"> Nombre del Documento</div>
+      <div class="col-sm-4 col-md-4 col-lg-1"> </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <div *ngFor="let item of list">
+      <mat-list-item class="row file-item file-item-row"> 
+        <div class="col-sm-4 col-md-4 col-lg-5"> {{item.type}}</div>
+        <div class="col-sm-4 col-md-4 col-lg-6"> 
+          <mat-list >
+            <mat-list-item class="row file-button-size" *ngFor="let file of item.files; let indexOfelement=index;">
+                  <span>{{file.name}}</span>
+                  <button 
+                    mat-icon-button 
+                    aria-label=""
+                    (click)="onElement(item.files, indexOfelement)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+            </mat-list-item>
+            
+            </mat-list>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-1"> 
+          <span class="hidden-file">
+            <input type="file" 
+               [accept]="accept"
+               [size]="size"
+               [count]="count"
+              #fileInput 
+              (change)="onFileSelected($event, item.files)" />
+          </span>
+          <button
+            mat-button 
+            color="primary"
+            (click)="fileInput.click()">Adjuntar</button>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-list>
+</app-sub-panel-form>
+

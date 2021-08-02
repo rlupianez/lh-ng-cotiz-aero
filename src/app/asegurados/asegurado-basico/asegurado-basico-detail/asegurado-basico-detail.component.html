@@ -1,0 +1,72 @@
+<!--mat-progress-bar *ngIf="loading" class="col-12 col-sm-12 col-md-12 col-lg-12" mode="indeterminate"></mat-progress-bar-->
+<div class="detail-page p-4 pl-5 pr-5 detail-background-color" @fadeIn>
+    
+    <!----------------------------------------------------------------------------->
+    <!--    DETAIL HEADER       --------------------------------------------------->
+    <!----------------------------------------------------------------------------->
+    
+    <div class="row mb-4 ml-2" *ngIf="!initialLoading" @fadeIn>
+        
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 row justify-content-start align-items-center mb-4 pl-0" *ngIf="!initialLoading" @fadeIn>
+            <button mat-mini-fab aria-label="Atrás" class="detail-btn-back" (click)="backRoute()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> 
+            <h3 class="ml-3 detail-header-text">Datos del Asegurado {{ id }}</h3>
+        </div>
+
+        <!--- LINK A POLIZA EN CARTERA ---->
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 icons-bar mb-4 pr-0">
+            <ul class="nav justify-content-end" @fadeIn>
+                <li class="nav-item" (click)="redirectToPoliza()"> 
+                    <div 
+                        class="detail-icon-tab flex-fill text-center ml-4 m-2">
+                        <div class="detail-icon-content">
+                            <mat-icon class="detail-icon" aria-hidden="false" svgIcon="group"></mat-icon>
+                            <h6 class="detail-icon-title pt-2">Ver Pólizas</h6>
+                        </div>
+                    </div>           
+                   
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+
+    <!--------- Skeleton ---------->
+    <div class="col-8 row detail-header-title mb-4" *ngIf="initialLoading">
+        <app-form-control-skeleton-loader class="col-8 h-100 row">
+            <div class="icon-xs col-1"></div>
+            <h5 class="h-100 m-auto col-9"></h5>
+        </app-form-control-skeleton-loader>
+    </div>
+
+   
+
+    <!----------------------------------------------------------------------------->
+    <!--    DETAIL FORMS       --------------------------------------------------->
+    <!----------------------------------------------------------------------------->
+    
+    <ng-container *ngFor="let formName of detailConfig | objectKeys; let idx = index;">
+        <div class="panel-form form-card card-border-primary row mb-3 p-4">
+
+            <div class="col-12 pl-0 mb-2" *ngIf="!initialLoading" @fadeIn>
+                <h5 class="accordeon-header-icon-title">{{ detailConfig[formName].text }}</h5>
+            </div>
+
+            <div class="col-12 pl-0 mb-2" *ngIf="initialLoading">
+                <app-form-control-skeleton-loader>
+                    <h5 class="col-4"></h5>
+                </app-form-control-skeleton-loader>
+            </div>
+            
+            
+            <div class="row col-12">
+                <!-- formulario column-->
+                <div class="col-{{ 12 / detailConfig[formName].cols }} p-0" *ngFor="let fieldCol of detailConfig[formName] | formViewerColumns">
+                    <app-form-viewer [loading]="initialLoading" class="w-100 p-0" [formConfig]="fieldCol" [formData]="data"></app-form-viewer>                          
+                </div>
+            </div>
+        </div> 
+    </ng-container>
+    
+</div>

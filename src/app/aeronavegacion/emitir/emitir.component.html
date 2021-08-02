@@ -1,0 +1,631 @@
+<div class="c-cotizador-container">
+  <!--mat-toolbar class="c-cotizador-toolbar">
+    <mat-toolbar-row>
+      <span class="c-cotizador-toolbar__title text-title">Cotizador Aeronavegación</span>
+    </mat-toolbar-row>
+  </mat-toolbar-->
+  <div class="container pt-4" @fadeIn>
+    <h1>
+      <button mat-mini-fab class="c-cotizador-title__icon"><mat-icon>flight</mat-icon></button>
+      Aeronavegación <span *ngIf="!nroCotizacion && !nroPropuesta"><mat-icon>arrow_forward_ios</mat-icon> Emitir</span>
+    </h1>
+    <h2 *ngIf="nroCotizacion">
+      Cotización #{{ nroCotizacion }}
+    </h2>
+    <h2 *ngIf="nroPropuesta">
+      Propuesta #{{ nroPropuesta }}
+    </h2>
+  </div>
+  <!--div class="c-form-panel-card-blur-overlay" *ngIf="loading"></div-->
+  <div class="cotizador-loader container h-100 col d-flex align-items-center justify-content-center" *ngIf="loading"  @fadeIn>
+    <div class="cotizador-loader-container mat-elevation-z1">
+      <img src="assets/img/gifs/cotizador-loader.gif"/>
+      <h2 class="pulse">Obteniendo información</h2>
+    </div>
+  </div>
+  <div class="container pt-3 pb-5" *ngIf="loaded && !loading"  @fadeIn>
+
+    <!--div class="c-cotizador-header">
+      <h2 class="c-cotizador-header__title">Cotizar</h2>
+    </div-->
+      <!--------------------------------------->
+      <!-------- Datos Productor Panel -------->
+      <!--------------------------------------->
+    <section *ngshow="false" #f1 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+        <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'productor'"></div-->
+        <mat-card-header class="c-form-panel-card__header">
+          <mat-card-title  class="c-form-panel-card__title">
+            <h3>Datos Productor</h3>
+          </mat-card-title>
+          <button 
+            mat-button 
+            class="c-form-panel__edit-button align-left" 
+            [hidden]="emitirService.datosProductorService.active || !canEditPanel('productor') || !editable"
+            (click)="editPanel('productor')">Modificar</button>
+        </mat-card-header>
+        <mat-card-content class="container">
+          
+            <form class="dynamic-form" [formGroup]="emitirService.datosProductorService.formGroup"> 
+              <app-dynamic-form-content class="row"
+                  [formConfig]="emitirService.datosProductorService.formGroupConfig" [formGroup]="emitirService.datosProductorService.formGroup">
+              </app-dynamic-form-content>
+            </form>
+        </mat-card-content>
+        <mat-card-actions  class="container" align="end" [hidden]="!emitirService.datosProductorService.active || !editable">
+          <button 
+            color="primary"
+            class="c-form-panel-card__confirm-btn ml-2"
+            [disabled]="!emitirService.datosProductorService.valid"
+            mat-flat-button 
+            (click)="nextPanel(f2)">Confirmar</button>
+        </mat-card-actions>
+      </mat-card>
+    </section>
+    <section #f1 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+        <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'productor'"></div-->
+        <mat-card-header class="c-form-panel-card__header">
+          <mat-card-title  class="c-form-panel-card__title">
+            <h3>Datos Productor</h3>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="container">
+          
+            <form #productorForm="ngForm"> 
+              <mat-form-field class="w-100" appearance="outline" class="col-sm-12 col-md-12 col-lg-5">         
+                <mat-label >Productor</mat-label>    
+                <input
+                    name="productor" 
+                    #productor="ngModel"                
+                    matInput           
+                    type="text"
+                    [(ngModel)]="datosProductor.desc_productor"
+                    required                                                                  
+                    autocomplete="off"   
+                    disabled       
+                    >               
+              </mat-form-field>
+            </form>
+        </mat-card-content>
+       
+      </mat-card>
+    </section>
+
+      <!--------------------------------------->
+      <!-------- Datos Tomador Panel -------->
+      <!--------------------------------------->
+    <section #f2 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-secundary">
+        <div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'tomador' && editable"></div>
+        <mat-card-header class="c-form-panel-card__header">
+        <mat-card-title  class="c-form-panel-card__title">
+          <h3>Datos Tomador</h3>
+        </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="container">
+          <form #tomadorForm="ngForm">
+            <div class="row">
+              <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                <mat-label >Condición I.V.A.</mat-label>    
+                <input
+                    name="desc_iva" 
+                    #desc_iva="ngModel"                
+                    matInput           
+                    type="text"
+                    [(ngModel)]="datosTomador.desc_iva"
+                    required                                                                  
+                    autocomplete="off"
+                    disabled          
+                    >               
+       
+              </mat-form-field> 
+                <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF">         
+                    <mat-label >Número de documento</mat-label>    
+                    <input
+                        name="nro_documento" 
+                        #nro_documento="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.nro_documento"
+                        required                                                                  
+                        autocomplete="off"   
+                        [disabled]="!modificaDatos || !editable"  
+                        (focusout)="validarDNI($event)"    
+                        >           
+                  </mat-form-field> 
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="esCodIvaF" *ngIf="!esCodIvaF">         
+                    <mat-label >CUIT</mat-label>    
+                    <input
+                        name="cuit" 
+                        #cuit="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.cuit"
+                        required                                                                  
+                        autocomplete="off"   
+                        [disabled]="!modificaDatos || !editable"
+                        >               
+                  </mat-form-field>  
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF">         
+                    <mat-label >Nombre</mat-label>    
+                    <input
+                        name="nombre" 
+                        #nombre="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.nombre"
+                        required                                                                  
+                        autocomplete="off" 
+                        [disabled]="!modificaDatos || !editable"         
+                        >               
+                        <mat-error *ngIf="nombre.touched && nombre.errors?.required" >Por favor complete este campo</mat-error>
+                  </mat-form-field> 
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF">         
+                    <mat-label >Apellido</mat-label>    
+                    <input
+                        name="apellido" 
+                        #apellido="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.apellido"
+                        required                                                                  
+                        autocomplete="off"
+                        [disabled]="!modificaDatos || !editable"          
+                        >               
+                        <mat-error *ngIf="apellido.touched && apellido.errors?.required" >Por favor complete este campo</mat-error>
+                  </mat-form-field>  
+                  <mat-form-field *ngIf="datosTomador.razon_social != null" class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="esCodIvaF">         
+                    <mat-label >Razón social</mat-label>    
+                    <input
+                        name="razon_social" 
+                        #razon_social="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.razon_social"
+                        required                                                                  
+                        autocomplete="off"
+                        [disabled]="!modificaDatos || !editable"          
+                        >               
+                        <mat-error *ngIf="razon_social.touched && razon_social.errors?.required" >Por favor complete este campo</mat-error>
+                  </mat-form-field> 
+
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Actividad</mat-label>    
+                    <mat-select [(value)]="datosTomador.cod_actividad" [disabled]="!modificaDatos || !editable" name="actividades" #actividades="ngModel" [(ngModel)]="datosTomador.cod_actividad"
+                    >
+                            <mat-option *ngFor="let actividad of listaActividades" 
+                        [value]="actividad.cod_activi">
+                              {{actividad.descri}}
+                            </mat-option>
+                          </mat-select>          
+                  </mat-form-field>   
+
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF">         
+                    <mat-label >Fecha de nacimiento</mat-label>    
+                    <input matInput [matDatepicker]="fec_nacimiento" placeholder="DD/MM/YYYY" required
+                    [formControl]="fechaNacimiento" [disabled]="!modificaDatos || !editable" (dateInput)="onDate($event)">
+                      <mat-datepicker-toggle matSuffix [for]="fec_nacimiento" ></mat-datepicker-toggle>
+                      <mat-datepicker #fec_nacimiento></mat-datepicker>
+                  </mat-form-field> 
+
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF" >         
+                    <mat-label >Sexo</mat-label>    
+                    <mat-select [(value)]="datosTomador.cod_sexo" [disabled]="!modificaDatos || !editable" required name="sexo" #sexo="ngModel" [(ngModel)]="datosTomador.cod_sexo">
+                            <mat-option *ngFor="let sexo of listaSexos" 
+                        [value]="sexo.codigo">
+                              {{sexo.descri}}
+                            </mat-option>
+                          </mat-select>   
+                          <mat-error *ngIf="sexo.touched && sexo.errors?.required" >Por favor complete este campo</mat-error>           
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4" [hidden]="!esCodIvaF" >         
+                    <mat-label >Nacionalidad</mat-label>    
+                    <mat-select [(value)]="datosTomador.cod_nacionalidad" [disabled]="!modificaDatos || !editable" required name="nacionalidad" #nacionalidad="ngModel" [(ngModel)]="datosTomador.cod_nacionalidad">
+                            <mat-option *ngFor="let pais of listaNacionalidades" 
+                        [value]="pais.x_pais">
+                              {{pais.x_pais}}
+                            </mat-option>
+                          </mat-select>            
+                          <mat-error *ngIf="nacionalidad.touched && nacionalidad.errors?.required" >Por favor complete este campo</mat-error>   
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Calle</mat-label>    
+                    <input
+                        name="domicilio" 
+                        #domicilio="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.domicilio"
+                        required                                                                  
+                        autocomplete="off" 
+                        [disabled]="!modificaDatos || !editable" 
+                        required        
+                        >               
+                        <mat-error *ngIf="domicilio.touched && domicilio.errors?.required" >Por favor complete este campo</mat-error> 
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Puerta</mat-label>    
+                    <input
+                        name="puerta" 
+                        #puerta="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.nro_puerta"
+                        required                                                                  
+                        autocomplete="off"
+                        [disabled]="!modificaDatos || !editable" 
+                        required         
+                        >               
+                        <mat-error *ngIf="puerta.touched && puerta.errors?.required" >Por favor complete este campo</mat-error> 
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Piso</mat-label>    
+                    <input
+                        name="piso" 
+                        #piso="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.nro_piso"                                                                  
+                        autocomplete="off" 
+                        [disabled]="!modificaDatos || !editable"         
+                        >               
+           
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Departamento</mat-label>    
+                    <input
+                        name="depto" 
+                        #depto="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.depto"                                                                  
+                        autocomplete="off" 
+                        [disabled]="!modificaDatos || !editable"         
+                        >               
+           
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Provincia</mat-label>    
+                    <mat-select [(value)]="datosTomador.cod_provincia" [disabled]="!modificaDatos || !editable" required name="provincia" #provincia="ngModel" [(ngModel)]="datosTomador.cod_provincia" 
+                    (selectionChange)="cambioDeProvincia($event)">
+                            <mat-option *ngFor="let provincia of listaProvincias" 
+                        [value]="provincia.cod_jur">
+                              {{provincia.descri}}
+                            </mat-option>
+                          </mat-select>            
+                          <mat-error *ngIf="provincia.touched && provincia.errors?.required" >Por favor complete este campo</mat-error> 
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Localidad</mat-label>    
+                    <mat-select [disabled]="!modificaDatos || !datosTomador.cod_provincia || !editable"  required name="localidad" #localidad="ngModel" [(ngModel)]="datosTomador.cod_localidad">
+                            <mat-option *ngFor="let localidad of listaLocalidades" 
+                        [value]="localidad.cod_postal">
+                              {{localidad.desc_lista_localidad}}
+                            </mat-option>
+                          </mat-select>            
+                          
+                  </mat-form-field> 
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Código Postal</mat-label>    
+                    <input
+                        name="cod_postal" 
+                        #cod_postal="ngModel"                
+                        matInput           
+                        type="text"
+                        [(ngModel)]="datosTomador.cod_postal"
+                        required                                                                  
+                        autocomplete="off"    
+                        [disabled]="!modificaDatos || !editable"  
+                        required 
+                        >               
+                        <mat-error *ngIf="cod_postal.touched && cod_postal.errors?.required" >Por favor complete este campo</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Teléfono</mat-label>    
+                    <input
+                        name="telefono" 
+                        #telefono="ngModel"                
+                        matInput           
+                        type="number"
+                        [(ngModel)]="datosTomador.telefono"
+                        required                                                                  
+                        autocomplete="off" 
+                        [disabled]="!modificaDatos || !editable" 
+                        required  
+                        [telefonoValidator]="datosTomador"  
+                        >               
+                        <mat-error *ngIf="telefono.touched && telefono.errors?.required" >Por favor complete este campo</mat-error>
+                        <mat-error >Debe ingresar minimo 8 numeros</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="w-100" appearance="outline" class="col-6 col-sm-3 col-md-3 col-lg-4">         
+                    <mat-label >Email</mat-label>    
+                    <input
+                        name="email" 
+                        #email="ngModel"                
+                        matInput           
+                        type="email"
+                        email="true"
+                        [(ngModel)]="datosTomador.email"                                                                
+                        autocomplete="off"  
+                        [disabled]="!modificaDatos || !editable"       
+                        >               
+                        <mat-error *ngIf="email.touched && email.errors?.email" >Formato de email invalido</mat-error>
+                  </mat-form-field>
+            </div>
+          </form>
+        </mat-card-content>
+        
+      </mat-card>
+    </section>
+    <!--------------------------------------->
+      <!-------- Datos Vigencia Panel -------->
+      <!--------------------------------------->
+      <section #f1 class="c-form-panel">
+        <mat-card class="c-form-panel-card w-100 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+          <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'productor'"></div-->
+          <mat-card-header class="c-form-panel-card__header">
+            <mat-card-title  class="c-form-panel-card__title">
+              <h3>Vigencia del Contrato</h3>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="container">
+              <div class="row">
+              <form class="dynamic-form" [formGroup]="emitirService.vigenciaService.formGroup" class="col-6 col-sm-8 col-md-8 col-lg-8"> 
+                <app-dynamic-form-content class="row"
+                    [formConfig]="emitirService.vigenciaService.formGroupConfig" [formGroup]="emitirService.vigenciaService.formGroup">
+                </app-dynamic-form-content>
+              </form>
+              <div *ngIf="tieneFecha" class="col-6 col-sm-4 col-md-4 col-lg-4">Fin de Vigencia: {{fechaFinal}} a las 24:00hs</div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </section>
+     <!----------------------------------------------->
+      <!-------- Productos ----------------------->
+      <!----------------------------------------------->
+      <section #f6 class="c-form-panel">
+        <mat-card class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-secundary">
+          <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'productos'"></div-->
+          <mat-card-header class="c-form-panel-card__header">
+          <mat-card-title  class="c-form-panel-card__title">
+            <h3>Productos</h3></mat-card-title>
+            <button 
+              mat-button 
+              class="c-form-panel__edit-button align-left" 
+              [hidden]="emitirService.datosProductorService.active  || !canEditPanel('productos')"
+              (click)="editPanel('productos')">Modificar</button>
+          </mat-card-header>
+          <mat-card-content class="container">
+              <form
+                  class="dynamic-form"
+                  [formGroup]="emitirService.productosService.formGroup"> 
+                  <app-dynamic-form-content  class="row"
+                    [formConfig]="emitirService.productosService.formGroupConfig" [formGroup]="emitirService.productosService.formGroup">
+                </app-dynamic-form-content>
+              </form>
+          </mat-card-content>
+          <mat-card-actions class="container" align="end" [hidden]="!emitirService.productosService.active">
+            <button mat-button (click)="prevPanel(f5)">Atrás</button>
+            <button 
+              class="c-form-panel-card__confirm-btn ml-2"
+              [disabled]="!emitirService.productosService.valid"
+              mat-flat-button color="primary" (click)="nextPanel(f7)">Confirmar</button>
+          </mat-card-actions>
+        </mat-card>
+      </section>
+      <!----------------------------------------------->
+      <!-------- Datos de Riesgo ----------------------->
+      <!----------------------------------------------->
+    <section #f5 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+        <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'datos-riesgo'"></div-->
+        <mat-card-header class="c-form-panel-card__header">
+        <mat-card-title  class="c-form-panel-card__title">
+          <h3>Datos de Riesgo</h3></mat-card-title>
+          <button 
+            mat-button 
+            class="c-form-panel__edit-button align-left" 
+            [hidden]="emitirService.riesgosService.datosRiesgo.active  || !canEditPanel('datos-riesgo')"
+            (click)="editPanel('datos-riesgo')">Modificar</button>
+        </mat-card-header>
+        <mat-card-content class="container">
+            <form
+                class="dynamic-form"
+                [formGroup]="emitirService.riesgosService.datosRiesgo.formGroup"> 
+                <app-dynamic-form-content  class="row"
+                  [formConfig]="emitirService.riesgosService.datosRiesgo.formGroupConfig" [formGroup]="emitirService.riesgosService.datosRiesgo.formGroup">
+              </app-dynamic-form-content>
+            </form>
+        </mat-card-content>
+        <mat-card-actions class="container" align="end" [hidden]="!emitirService.riesgosService.datosRiesgo.active">
+          <button mat-button (click)="prevPanel(f4)">Atrás</button>
+          <button 
+            class="c-form-panel-card__confirm-btn ml-2"
+            [disabled]="!emitirService.riesgosService.datosRiesgoValid"
+            mat-flat-button color="primary" (click)="nextPanel(f6)">Confirmar</button>
+        </mat-card-actions>
+      </mat-card>
+  </section>
+   <!----------------------------------------------->
+      <!-------- Usos --------------------------------->
+      <!----------------------------------------------->
+      <section #f7 class="c-form-panel" *ngshow="false">
+        <mat-card  class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+          <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'usos'"></div-->
+          <mat-card-header class="c-form-panel-card__header">
+          <mat-card-title  class="c-form-panel-card__title">
+            <h3>Usos</h3></mat-card-title>
+            <button 
+              mat-button 
+              class="c-form-panel__edit-button align-left" 
+              [hidden]="emitirService.usosService.active || !canEditPanel('usos')"
+              (click)="editPanel('usos')">Modificar</button>
+          </mat-card-header>
+          <mat-card-content class="container">
+              <form
+                  class="dynamic-form container"
+                  [formGroup]="emitirService.usosService.formGroup"> 
+                  <app-dynamic-form-content  class="row"
+                    [formConfig]="emitirService.usosService.formGroupConfig" [formGroup]="emitirService.usosService.formGroup">
+                </app-dynamic-form-content>
+              </form>
+          </mat-card-content>
+          <mat-card-actions class="container" align="end" [hidden]="!emitirService.usosService.active">
+            <button mat-button (click)="prevPanel(f6)">Atrás</button>
+            <button 
+              class="c-form-panel-card__confirm-btn ml-2"
+              [disabled]="!emitirService.usosService.valid"
+              mat-flat-button color="primary" (click)="nextPanel(f8)">Confirmar</button>
+          </mat-card-actions>
+        </mat-card>
+      </section>
+       <!----------------------------------------------->
+      <!-------- Coberturas --------------------------------->
+      <!----------------------------------------------->
+    <section #f8 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-secundary">
+        <!--div class="c-form-panel-card-blur-overlay" *ngIf="activePanelName !== 'coberturas'"></div-->
+        <mat-card-header class="c-form-panel-card__header">
+        <mat-card-title  class="c-form-panel-card__title">
+          <h3>Coberturas</h3></mat-card-title>
+          <button 
+            mat-button 
+            class="c-form-panel__edit-button align-left" 
+            [hidden]="emitirService.coberturasService.active || !canEditPanel('coberturas')"
+            (click)="editPanel('coberturas')">Modificar</button>
+        </mat-card-header>
+        <mat-card-content class="container">
+            <form
+                class="dynamic-form"
+                [formGroup]="emitirService.coberturasService.formGroup"> 
+                <app-dynamic-form-content  class="row"
+                  [formConfig]="emitirService.coberturasService.formGroupConfig" [formGroup]="emitirService.coberturasService.formGroup">
+              </app-dynamic-form-content>
+            </form>
+        </mat-card-content>
+        <mat-card-actions class="container" align="end" [hidden]="!emitirService.coberturasService.active">
+          <button mat-button (click)="prevPanel(f7)">Atrás</button>
+          <button
+            [disabled]="!emitirService.coberturasService.valid"
+            mat-flat-button (click)="guardarPropuesta()">Guardar</button>
+          <button 
+            class="c-form-panel-card__confirm-btn ml-2"
+            [disabled]="!emitirService.coberturasService.valid"
+            mat-flat-button color="primary" (click)="finalizar()">Finalizar</button>
+        </mat-card-actions>
+      </mat-card>
+    </section>
+      <!----------------------------------------------->
+      <!-------- Condiciones Comerciales Panel -------->
+      <!----------------------------------------------->
+    <section #f3 class="c-form-panel">
+      <mat-card class="c-form-panel-card w-100 mt-3 mat-elevation-z0 bordered-panel p-4 card-border-primary">
+        <mat-card-header class="c-form-panel-card__header">
+        <mat-card-title  class="c-form-panel-card__title">
+          <h3>Condiciones y beneficios Comerciales</h3></mat-card-title>
+          <button 
+            mat-button 
+            class="c-form-panel__edit-button align-left" 
+            [hidden]="emitirService.condicionesComercialesEmitirService.active || !canEditPanel('condiciones-comerciales') || !editable"
+            (click)="editPanel('condiciones-comerciales')">Modificar</button>
+        </mat-card-header>
+        <mat-card-content class="container">
+          <form #condicionesForm="ngForm">
+            <div class="row">
+              <mat-form-field class="w-100" appearance="outline" class="col-sm-12 col-md-12 col-lg-3">         
+                <mat-label >Moneda</mat-label>    
+                <input
+                    name="desc_moneda" 
+                    #desc_moneda="ngModel"                
+                    matInput           
+                    type="text"
+                    [(ngModel)]="datosCondiciones.desc_moneda"
+                    required                                                                  
+                    autocomplete="off"
+                    disabled          
+                    >               
+              </mat-form-field> 
+              <mat-form-field class="w-100" appearance="outline" class="col-sm-12 col-md-12 col-lg-3">         
+                <mat-label >Medios de pago</mat-label>    
+                <mat-select name="desc_forma_pago" name="desc_forma_pago" #desc_forma_pago="ngModel" [(ngModel)]="datosCondiciones.cod_forma_pago" (selectionChange)="cambioMedioDePago($event)">
+                        <mat-option *ngFor="let forma_pago of listaMediosDePagos" 
+                    [value]="forma_pago.codigo">
+                          {{forma_pago.descri}}
+                        </mat-option>
+                      </mat-select>            
+                      
+              </mat-form-field>
+              <mat-form-field class="w-100" appearance="outline" class="col-sm-12 col-md-12 col-lg-3">         
+                <mat-label >Planes de pago</mat-label>    
+                <input
+                    name="desc_plan_pagos" 
+                    #desc_plan_pagos="ngModel"                
+                    matInput           
+                    type="text"
+                    [(ngModel)]="datosCondiciones.desc_plan_pagos"
+                    required                                                                  
+                    autocomplete="off"
+                    disabled          
+                    >               
+              </mat-form-field> 
+              <mat-form-field class="w-100" appearance="outline" class="col-sm-12 col-md-12 col-lg-3">         
+                <mat-label >% de Comisión</mat-label>    
+                <input
+                    name="porc_comision" 
+                    #porc_comision="ngModel"                
+                    matInput           
+                    type="text"
+                    [(ngModel)]="datosCondiciones.porc_comision"
+                    required                                                                  
+                    autocomplete="off"
+                    disabled          
+                    >               
+              </mat-form-field> 
+            
+              </div>
+          </form>
+            <form hidden class="dynamic-form" [formGroup]="emitirService.condicionesComercialesEmitirService.formGroup"> 
+               
+                <app-dynamic-form-content class="row"
+                  [formConfig]="emitirService.condicionesComercialesEmitirService.formGroupConfig" [formGroup]="emitirService.condicionesComercialesEmitirService.formGroup">
+                </app-dynamic-form-content>
+               
+            </form>
+            <div class="row" *ngIf="emitirService.condicionesComercialesEmitirService.showCreditCardForm && editable">
+              
+              <app-credit-card class="w-100" [codAsegurado]="emitirService.condicionesComercialesEmitirService.codAsegurado" (isValidEvent)="emitirService.condicionesComercialesEmitirService.getCreditCardForm($event)"></app-credit-card>
+            </div>
+            <div class="row" *ngIf="!emitirService.condicionesComercialesEmitirService.showCreditCardForm">
+              
+              <app-cbu-card class="w-100" [codAsegurado]="emitirService.condicionesComercialesEmitirService.codAsegurado" (isValidEvent)="emitirService.condicionesComercialesEmitirService.getCreditCardForm($event)"></app-cbu-card>
+            </div>
+            
+        </mat-card-content>
+        <mat-card-actions class="container" align="end" *ngIf="editable">
+          <button mat-button (click)="prevPanel(f2)">Atrás</button>
+          <button 
+            class="c-form-panel-card__confirm-btn ml-2"
+            [disabled]="!formValido"
+            mat-flat-button color="primary" (click)="guardarPropuesta()">Guardar</button>
+          <button 
+            class="c-form-panel-card__confirm-btn ml-2"
+            [disabled]="!formValido"
+            mat-flat-button color="primary" (click)="finalizar()">Finalizar</button>
+        </mat-card-actions>
+      </mat-card>
+    </section>
+  </div>
+
+  <!--mat-toolbar #footer *ngIf="emitirService.allFormsValid && editable" class="c-cotizador-toolbar-footer stycky-position fixed-bottom">
+    <mat-toolbar-row>
+   
+      <span class="example-spacer"></span>
+    <button 
+      class="c-form-panel-card__confirm-btn ml-2"
+      mat-flat-button color="primary" (click)="emitirCotizacion()">Emitir</button>
+    </mat-toolbar-row>
+  </mat-toolbar-->
+</div> 

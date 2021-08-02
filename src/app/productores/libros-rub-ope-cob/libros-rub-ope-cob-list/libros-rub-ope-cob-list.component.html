@@ -1,0 +1,33 @@
+<div class="container-fluid mb-2 fondo-general">
+        <div class="mt-2">
+            <app-report-filters [expanded]="panelExpanded" [title]="listTitle">
+                    
+                <app-filters-toolbar 
+                    class="mt-2" 
+                    [filters]="filtersFields" 
+                    (sendFilters)="applyFilters($event)"
+                    [formFilter]="retForm"
+                    [filtersVisibility]="formVisibility"
+                    (filtersFieldHasChange)="filterFieldChange($event)"></app-filters-toolbar>
+            
+            </app-report-filters>
+        </div>
+        <div class="row">
+            <app-material-table 
+                class="col-sm-12 mt-3" 
+                [isLoading]="isLoadingResults" 
+                [dataSource]="listItems" 
+                [pageSize]="tablePageSize"
+                [columns]="columns" 
+                [itemsTotal]="resultLength"
+                [hideExcelExport]="true"
+                [hidePDFDownload]="true"
+                [filterAppliedSubject]="applyFilterInTable"
+                [filterHasChange]="filtersHasChange"
+                (paginationChange)="pageChange($event)"
+                [loadMoreBtn]="loadMorePaginator"
+                (downloadExcelEvent)="downloadExcel($event)"></app-material-table>
+        </div>
+
+</div>
+

@@ -1,0 +1,32 @@
+<div id="list-container" class="container-fluid mb-5">
+    <div class="mt-1">
+        <app-report-filters [expanded]="panelExpanded" [title]="tableTitle">
+            <app-filters-toolbar
+                [autoApplyFilters]="true"
+                [formFilter]="filterFormGroup" 
+                [filters]="filtersFields" 
+                [filtersVisibility]="formVisibility"
+                (sendFilters)="applyFilters($event)"></app-filters-toolbar>
+        </app-report-filters>
+        
+    </div>
+    <div class="row">
+        <app-material-table 
+            class="col-sm-12 mt-3" 
+            [isLoading]="isLoadingResults" 
+            [dataSource]="listItems" 
+            [columns]="columns"
+            [loadMoreBtn]="loadMorePaginator"
+            [itemsTotal]="resultLength"
+            [pageSize]="tablePageSize"
+            (paginationChange)="pageChange($event)"
+            [stickyHeader]="false"
+            [filterAppliedSubject]="applyFilterInTable"
+            [filterHasChange]="filtersHasChange"
+            [hidePDFDownload]="true"
+            (linkRowClickedEvent)="tableLinkClicked($event)"
+            (downloadExcelEvent)="downloadExcel($event)"></app-material-table>
+    </div>
+</div>
+
+   

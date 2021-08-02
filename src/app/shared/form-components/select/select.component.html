@@ -1,0 +1,46 @@
+<mat-form-field class="w-100 filtro-select" [appearance]="controlAppearance" (mouseover)="onFocus($event)"
+  (mouseout)="onFocusOut($event)" floatLabel="auto">
+  <!--mat-label>
+      <span>{{ label }}</span>
+  </mat-label-->
+  <mat-select #selectInput [formControl]="iFormControl" [required]="isRequired" [multiple]="controlSpecs['multiselect']"
+    (selectionChange)="changeEvent($event)" (openedChange)="openedSelect()">
+    <mat-option *ngIf="controlSpecs['searchable']" class="m-0 p-0" (click)="clickInputSelect($event)"
+      class="input-select-option" disabled>
+      <!--app-select-search class="input-select"></app-select-search-->
+      <mat-form-field class="input-search-form-field">
+        <input matInput #searchInput class="mat-select-search-input mat-select-search-hidden"
+          (keyup)="searchInSelect($event.target.value)" focused="'true'" (keydown)="$event.stopPropagation()"
+          (keyup.enter)="pressEnter()" />
+        <!--button mat-button matSuffix mat-icon-button aria-label="Clear" (mousedown)="clearValue()"-->
+        <!--mat-icon *ngIf="!isEmpty" mattSuffix>close</mat-icon-->
+        <!--/button-->
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </mat-option>
+    <mat-option *ngIf="controlSpecs['hasEmptyOption'] && !controlSpecs['searchable']"></mat-option>
+    <mat-option *ngFor="let option of optionList" [value]="option[controlSpecs['pasteFieldOnSelect']] || option['value']">
+
+      <!--- Options config -->
+      <ng-container *ngIf="controlSpecs['options']['description']; then hasDescription; else normal"></ng-container>
+      <ng-template #normal>
+        {{ option[controlSpecs['options']['value']] || option['value'] }}
+      </ng-template>
+      <ng-template #hasDescription>
+        {{ option[controlSpecs['options']['value']] || option['value'] }} -
+        {{ option[controlSpecs['options']['description']] }}
+      </ng-template>
+
+    </mat-option>
+  </mat-select>
+  <mat-label>
+    {{ label }}
+    <!--mat-spinner *ngIf="true" class="col-2" strokeWidth="3" [diameter]="23" matSuffix></mat-spinner-->
+  </mat-label>
+
+  <button *ngIf="!loading && !isEmpty && !isRequired && iFormControl.enabled" mat-button matSuffix mat-icon-button
+    aria-label="Clear" (mousedown)="clearValue($event)">
+    <mat-icon mattSuffix>close </mat-icon>
+  </button>
+  <mat-error *ngIf="iFormControl.errors?.required">Por favor complete este campo</mat-error>
+</mat-form-field>

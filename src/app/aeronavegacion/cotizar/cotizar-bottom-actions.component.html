@@ -1,0 +1,25 @@
+<mat-nav-list class="c-cotizador-bottom-actions">
+
+    <a mat-list-item class="c-cotizador-bottom-actions__item" (click)="openLink('Volver')">
+      <div class="col-10">
+        <span mat-line><h5>Volver</h5></span>
+        <span mat-line>Seguir editando Cotización</span>
+      </div>
+      <div class="col-2" align="end">
+        <mat-icon>replay</mat-icon>
+      </div>
+    </a>
+    <a mat-list-item class="c-cotizador-bottom-actions__item c-cotizador-bottom-actions__item--success" (click)="openLink('Finalizar')">
+      <div class="col-10">
+        <div>
+          <span mat-line><h5>Confirmar</h5></span>
+          <span mat-line>Generar Cotización</span>
+        </div>
+      </div>
+      <div class="col-2" align="end">
+        <mat-icon>check</mat-icon>
+      </div>
+
+    </a>
+
+  </mat-nav-list>

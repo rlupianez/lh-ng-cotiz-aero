@@ -1,0 +1,12 @@
+<div class="input-radio-label button-toggle mat-form-field-wrapper">
+  <label >{{controlOptions.label}}</label>
+    <mat-radio-group   [formControl]="iFormControl" class="person-radio-group">
+      <mat-radio-button 
+          class="person-radio-button" 
+          *ngFor="let option of controlOptions.control.list;let i = index" 
+          [value]="option.value">
+         {{option.title}}
+      </mat-radio-button>
+    </mat-radio-group> 
+  <!--mat-error class="button-toggle-error" *ngIf="iFormControl.touched && iFormControl.errors?.required">Por favor complete este campo</mat-error-->
+</div>

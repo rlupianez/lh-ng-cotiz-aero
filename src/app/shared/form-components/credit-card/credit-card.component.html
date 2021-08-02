@@ -1,0 +1,84 @@
+<div class="container row">
+    <!--- Tarjetas guardadas -->
+    <div class="col-6">
+        <div class="row col-12 mb-4">
+            <h4>Tarjetas de crédito disponibles</h4>
+        </div>
+        <div class="row col-12">
+            <div class="col-12" *ngIf="showTarjetasAsegurado">
+                <app-selection-list [controlOptions]="fieldsOptions['tarjeta_aseg']"
+                    [iFormControl]="asegForm.get('tarjeta_aseg')"></app-selection-list>
+            </div>
+        </div>
+        <div class="row col-12">
+           
+            <button mat-stroked-button color="primary" class="btn-add-card w-100 h-50 mt-2" (click)="addCard()">
+                <mat-icon matSuffix>add</mat-icon>
+                Agregar Nueva Tarjeta
+            </button>
+           
+        </div>
+    </div>
+    <!-- Agregar nueva tarjeta -->
+    <div class="col-6" *ngIf="showAddCard && !asegForm.get('tarjeta_aseg').value">
+            <ng-container>
+               
+                <div class="row col-12 mb-4">
+                    <h4>Agregando nueva tarjeta</h4>
+                </div>
+                <div class="row col-12">
+                    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+                    
+                    <!-- Tipo de Tarjeta -->
+                    <div class="col-12">
+                        <app-select (focusout)="focusoutCreditNumber($event)" [controlOptions]="fieldsOptions['tipo_tarjeta']" [iFormControl]="formNewCreditCard.get('tipo_tarjeta')"></app-select>
+                    </div>
+                    
+                    <!-- Campo numero de tarjeta -->
+                    <mat-form-field appearance="outline" class="col-12">
+                        <mat-label>Numero Tarjeta</mat-label>
+                        <input autocomplete="off" type="tel" [formControl]="formNewCreditCard.get('tarjeta_credito')"
+                            matInput maxlength="{{cardLength}}" (focusout)="focusoutCreditNumber($event)">
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <mat-hint align="end">{{ formNewCreditCard.get('tarjeta_credito').value?.length }} /
+                            {{ cardLength }}</mat-hint>
+                        <mat-error *ngIf="formNewCreditCard.get('tarjeta_credito').errors?.required">Por favor complete este campo</mat-error>
+                        <mat-error *ngIf="formNewCreditCard.get('tarjeta_credito').errors?.invalid">Número de Tarjeta inválido</mat-error>
+                    </mat-form-field>
+                    <!-- Campo Nombre de Titular -->
+                    <mat-form-field appearance="outline" class="col-12">
+                        <mat-label>Titular Tarjeta</mat-label>
+                        <input matInput [formControl]="formNewCreditCard.get('titular_tarjeta')" type="text">
+                    </mat-form-field>
+                    
+                    <!--- Vencimiento de tarjeta -->
+                    <!--mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Mes Vencimiento</mat-label>
+                        <input matInput [formControl]="formNewCreditCard.get('month')" maxlength="2" type="text">
+                        <mat-error *ngIf="formNewCreditCard.get('month').errors?.max">
+                            El valor ingresado no debe ser mayor a {{ formNewCreditCard.get('month').errors?.max?.max }}
+                        </mat-error>
+                        <mat-error *ngIf="formNewCreditCard.get('month').errors?.min">
+                            El valor ingresado no debe ser menor a {{ formNewCreditCard.get('month').errors?.min?.min }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Año Vencimiento</mat-label>
+                        <input matInput [formControl]="formNewCreditCard.get('year')" maxlength="4" type="text">
+                        <mat-error *ngIf="formNewCreditCard.get('year').errors?.max">
+                            El valor ingresado no debe ser mayor a {{ formNewCreditCard.get('year').errors?.max?.max }}
+                        </mat-error>
+                        <mat-error *ngIf="formNewCreditCard.get('year').errors?.min">
+                            El valor ingresado no debe ser menor a {{ formNewCreditCard.get('year').errors?.min?.min }}
+                        </mat-error>
+                    </mat-form-field-->
+                    <app-periodpicker class="col-12" [iFormControl]="formNewCreditCard.get('vencimiento')" [controlOptions]="vencimiento"></app-periodpicker>
+
+                </div>
+
+            </ng-container>
+        </div>
+
+
+</div>

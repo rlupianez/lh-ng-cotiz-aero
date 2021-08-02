@@ -1,0 +1,11 @@
+
+<div class="container cotizador-form w-100">
+  <form class="dynamic-form" [formGroup]="formGroup"> 
+        <app-dynamic-container [formConfig]="formConfig" [formGroup]="formGroup" class="{{ formConfig['class'] }}">
+        </app-dynamic-container>
+  </form>
+  <div class="row" align="end">
+    <button mat-button>Confirmar</button>
+    <button mat-button>Atrás</button>
+  </div>
+</div>
